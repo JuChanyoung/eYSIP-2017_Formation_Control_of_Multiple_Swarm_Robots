@@ -13,10 +13,17 @@ extern volatile char flag_instruction;
 extern volatile char data_string[100];  //to store received data from UDR
 extern char data_string1[100];
 
+extern const int id;
+
 extern int id_var;
-extern int x;
-extern int y;
-extern int theta;
+extern int x_current;
+extern int y_current;
+extern int theta_current;
+
+extern int x_req;
+extern int y_req;
+extern int theta_req;
+
 
 /*
 Name: display_data_string
@@ -27,19 +34,19 @@ Example Call: display_data_string();
 void display_data_string()
 {
 	strcpy(data_string1, data_string);
-	lcd_cursor(2,1);
+	lcd_cursor(1,1);
 	lcd_string(data_string1);
 }
 
 /*
 Name: update_values
 Input: None
-Output: Updates the  id, x, y, theta valuesand displayes them on the LCD
+Output: Updates the  id, x_current, y, theta valuesand displayes them on the LCD
 Example Call: update_values();
 */
 void update_values()
 {
-	char parts[4][10];
+	char parts[7][10];
 	strcpy(data_string1, data_string);
 	
 	char *p_start, *p_end;
@@ -63,14 +70,18 @@ void update_values()
 		}
 		
 	id_var = atoi(parts[0]);
-	x = atoi(parts[1]);
-	y = atoi(parts[2]);
-	theta = atoi(parts[3]);
+	x_current = atoi(parts[1]);
+	y_current = atoi(parts[2]);
+	theta_current = atoi(parts[3]) - 180;
+	
+	x_req = atoi(parts[4]);
+	y_req = atoi(parts[5]);
+	theta_req = atoi(parts[6]) - 180;
 	
 	//lcd_clear();
-	lcd_print(1,1,id_var,3);
-	lcd_print(1,5,x,3);
-	lcd_print(2,1,y,3);
-	lcd_print(2,5,theta,3);
+//  	lcd_print(2,1,id_var,3);
+//  	lcd_print(2,5,x_current,3);
+//  	lcd_print(2,9,y_current,3);
+//  	lcd_print(2,13,theta_current,3);
 }
 
