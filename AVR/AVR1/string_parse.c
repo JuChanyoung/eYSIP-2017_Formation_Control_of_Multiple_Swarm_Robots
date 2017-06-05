@@ -2,48 +2,52 @@
  * string_parse.c
  *
  * Created: 5/30/2017 10:17:12 AM
- * Author: Chirag
+ *  Author: Chirag
  */ 
 
 #include <string.h>
 #include "LCD.h"
+#include <stdlib.h>
 
 extern volatile char data;  //to store received data from UDR0
 extern volatile char flag_instruction;
 extern volatile char data_string[100];  //to store received data from UDR
 extern char data_string1[100];
 
-extern const int id;
-
 extern int id_var;
 extern int x_current;
 extern int y_current;
 extern int theta_current;
-
 extern int x_req;
 extern int y_req;
 extern int theta_req;
 
+int get_value()
+{
+	int var = 0;
+	flag_instruction--;
+		
+	for (int i = 100;i>0;) //Loop for 3
+	{
+		while (!flag_instruction); //Waiting for next byte
+		flag_instruction--;
+		
+		int k = data - 48;
+		
+		var = var + k*i;
+		i/=10;
+	}
+	//x=var;
+	return var;
+}
 
-/*
-Name: display_data_string
-Input: None
-Output: Displays the string last received from XBee
-Example Call: display_data_string();
-*/
 void display_data_string()
 {
 	strcpy(data_string1, data_string);
-	lcd_cursor(1,1);
+	lcd_cursor(2,1);
 	lcd_string(data_string1);
 }
 
-/*
-Name: update_values
-Input: None
-Output: Updates the  id, x_current, y, theta valuesand displayes them on the LCD
-Example Call: update_values();
-*/
 void update_values()
 {
 	char parts[7][10];
@@ -72,16 +76,24 @@ void update_values()
 	id_var = atoi(parts[0]);
 	x_current = atoi(parts[1]);
 	y_current = atoi(parts[2]);
-	theta_current = atoi(parts[3]) - 180;
-	
+	theta_current = abs(atoi(parts[3])-360+180-360); //(-180)-(180)
 	x_req = atoi(parts[4]);
 	y_req = atoi(parts[5]);
-	theta_req = atoi(parts[6]) - 180;
+	theta_req = abs(atoi(parts[6])-180-360); //(0)-(360)
+	
+	//lcd_print(2,1,theta_current,3);
+	//lcd_print(2,5,theta_req,3);
 	
 	//lcd_clear();
-//  	lcd_print(2,1,id_var,3);
-//  	lcd_print(2,5,x_current,3);
-//  	lcd_print(2,9,y_current,3);
-//  	lcd_print(2,13,theta_current,3);
+	/*
+	lcd_print(1,1,id_var,3);
+	lcd_print(1,5,x_current,3);
+	lcd_print(1,9,y_current,3);
+	lcd_print(1,13,theta_current,3);
+	//lcd_print(2,1,id_var,3);
+	lcd_print(2,5,x_req,3);
+	lcd_print(2,9,y_req,3);
+	lcd_print(2,13,theta_req,3);
+	*/	
 }
 

@@ -22,21 +22,6 @@ void soft_right_2 (void);    //Left wheel stationary, Right wheel backward
 void hard_stop (void);		 //hard stop(stop suddenly)
 void soft_stop (void);       //soft stop(stops solowly)
 
-void motion_pin_config (void);
-void left_encoder_pin_config (void);
-void right_encoder_pin_config (void);
-void left_position_encoder_interrupt_init (void);
-void right_position_encoder_interrupt_init (void);
-void stop (void);
-void angle_rotate(unsigned int);
-void linear_distance_mm(unsigned int);
-void forward_mm(unsigned int);
-void left_degrees(unsigned int);
-void back_mm(unsigned int);
-void right_degrees(unsigned int);
-void soft_left_degrees(unsigned int);
-void soft_right_degrees(unsigned int);
-void soft_left_2_degrees(unsigned int);
-void soft_right_2_degrees(unsigned int);
+
 
 #endif /* MOTION_H_ */

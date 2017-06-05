@@ -27,11 +27,11 @@ void uart0_init(void)
  UCSRB = 0x98; 
 }
 
+
+
+//ISR(SIG_UART_RECV)  		// ISR for receive complete interrupt //, ISR_NOBLOCK
 ISR(USART_RXC_vect)
 {
-	//Data is in the form 
-	//			./id/x_current/y_current/theta_current/x_req/y_req/theta_req/
-	
 	data = UDR; 				//making copy of data from UDR0 in 'data' variable
 	
 	if (data == 0x2E) // ascii of .

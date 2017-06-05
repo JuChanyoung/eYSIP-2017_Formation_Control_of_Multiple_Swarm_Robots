@@ -6,12 +6,15 @@
  */
 
 #include <avr/io.h>
-
 #include "velocity.h"
+#include "LCD.h"
 
 //Function for velocity control
 void velocity (unsigned char left_motor, unsigned char right_motor)
 {
+	//lcd_print(1,8,left_motor,3);
+	//lcd_print(1,12,right_motor,3);
+	
 	OCR1AH = 0x00;
 	OCR1BH = 0x00;
 	
@@ -21,16 +24,22 @@ void velocity (unsigned char left_motor, unsigned char right_motor)
 	}
 	else
 	{
-		OCR1AL = 0xFF;	//255
+		OCR1AL = 0x00;	//000
+		lcd_clear();
+		lcd_home();
+		lcd_string("Error 2");
 	}
 
 	if(0<=right_motor && right_motor<=255)
 	{
-		OCR1BL = left_motor;     // duty cycle 'ON' period of PWM out for Right motor
+		OCR1BL = right_motor;     // duty cycle 'ON' period of PWM out for Right motor
 	}
 	else
 	{
-		OCR1BL = 0xFF; //255
+		OCR1BL = 0x00; //000
+		lcd_clear();
+		lcd_home();
+		lcd_string("Error 2");
 	}
 }
  
