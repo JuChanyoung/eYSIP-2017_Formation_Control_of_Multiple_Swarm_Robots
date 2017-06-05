@@ -12,6 +12,7 @@ def mainarea(img_rgb):
     print' main area funct'
     img_gray=cv2.cvtColor(img_rgb,cv2.COLOR_BGR2GRAY)
     ret,thresh = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
+    cv2.imshow('thresh',thresh)
     _,contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
     x=0
     y=0
@@ -43,7 +44,7 @@ def mainarea(img_rgb):
 
 
             arena = cv2.warpPerspective(img_rgb,M,(w,h))
-            cv2.imshow('Arena',arena)
+            #cv2.imshow('Arena',arena)
 
             
             
