@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.21)  5 JUN 2017 23:40
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.20)  5 JUN 2017 23:03
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 entering extended mode
 **./Chirag_presentation.tex
 (Chirag_presentation.tex
@@ -650,6 +654,7 @@ ault.sty"
 )
 ("E:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\outer\beamerouterthemedef
 ault.sty")))
+<<<<<<< HEAD
 ("E:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\theme\beamerthemeDresden.
 sty"
 ("E:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\outer\beamerouterthememin
@@ -658,6 +663,23 @@ iframes.sty")
 le.sty"))
 ("E:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\color\beamercolorthemesid
 ebartab.sty") ("E:\Program Files\MiKTeX 2.9\tex\latex\movie15\movie15.sty"
+=======
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\theme\beamerthemeBerkeley
+.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\outer\beamerouterthemesid
+ebar.sty"
+\beamer@sidebarwidth=\dimen188
+\beamer@headheight=\dimen189
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\inner\beamerinnerthemerec
+tangles.sty")
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\color\beamercolorthemewha
+le.sty")
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\color\beamercolorthemeorc
+hid.sty"))
+("C:\Program Files\MiKTeX 2.9\tex\latex\beamer\themes\color\beamercolorthemesid
+ebartab.sty") ("C:\Program Files\MiKTeX 2.9\tex\latex\movie15\movie15.sty"
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 Package: movie15 2012/05/16
 
 ("E:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
@@ -672,15 +694,15 @@ Package: ifdraft 2016/05/16 v1.4 Detect class options draft and final (HO)
 \@MXV@includes=\count157
 \@MXV@players=\count158
 \@MXV@links=\count159
-\@MXV@width=\dimen188
-\@MXV@height=\dimen189
-\@MXV@depth=\dimen190
-\@MXV@totalheight=\dimen191
-\@MXV@@boxdepth=\dimen192
-\@MXV@traiselen=\dimen193
-\@MXV@braiselen=\dimen194
-\@MXV@start=\dimen195
-\@MXV@end=\dimen196
+\@MXV@width=\dimen190
+\@MXV@height=\dimen191
+\@MXV@depth=\dimen192
+\@MXV@totalheight=\dimen193
+\@MXV@@boxdepth=\dimen194
+\@MXV@traiselen=\dimen195
+\@MXV@braiselen=\dimen196
+\@MXV@start=\dimen197
+\@MXV@end=\dimen198
 \@MXV@textbox=\box53
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 18.
@@ -711,14 +733,14 @@ LaTeX Font Info:    ... okay on input line 26.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: includehead includefoot 
-* h-part:(L,W,R)=(28.45274pt, 307.28987pt, 28.45274pt)
+* h-part:(L,W,R)=(59.22636pt, 290.74263pt, 14.22636pt)
 * v-part:(T,H,B)=(0.0pt, 273.14662pt, 0.0pt)
 * \paperwidth=364.19536pt
 * \paperheight=273.14662pt
-* \textwidth=307.28987pt
+* \textwidth=290.74263pt
 * \textheight=244.6939pt
-* \oddsidemargin=-43.81725pt
-* \evensidemargin=-43.81725pt
+* \oddsidemargin=-13.04362pt
+* \evensidemargin=-13.04362pt
 * \topmargin=-72.26999pt
 * \headheight=14.22636pt
 * \headsep=0.0pt
@@ -740,13 +762,13 @@ LaTeX Font Info:    ... okay on input line 26.
 ("E:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count160
-\scratchdimen=\dimen197
+\scratchdimen=\dimen199
 \scratchbox=\box54
 \nofMPsegments=\count161
 \nofMParguments=\count162
 \everyMPshowfont=\toks43
 \MPscratchCnt=\count163
-\MPscratchDim=\dimen198
+\MPscratchDim=\dimen256
 \MPnumerator=\count164
 \makeMPintoPDFobject=\count165
 \everyMPtoPDFconversion=\toks44
@@ -871,52 +893,65 @@ Package hyperref Warning: Option `pdfauthor' has already been used,
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 (Font)              size <5> substituted on input line 41.
 
-[1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+[1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 64.
+LaTeX Font Info:    Try loading font information for U+msa on input line 93.
 
 ("E:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 64.
+LaTeX Font Info:    Try loading font information for U+msb on input line 93.
 
 ("E:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 64.
+line 93.
 
 ("E:\Program Files\MiKTeX 2.9\tex\latex\sansmathaccent\ot1mathkerncmss.fd"
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-[2
+[3
 
-] [3
-
-] <images/aruco.jpg, id=158, 501.875pt x 501.875pt>
+] <images/aruco.jpg, id=141, 501.875pt x 501.875pt>
 File: images/aruco.jpg Graphic file (type jpg)
+<<<<<<< HEAD
 
 <use images/aruco.jpg>
 Package pdftex.def Info: images/aruco.jpg used on input line 104.
+=======
+ <use images/aruco.jpg>
+Package pdftex.def Info: images/aruco.jpg used on input line 107.
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 (pdftex.def)             Requested size: 50.19043pt x 50.19043pt.
- [4
+
+[4
 
  <./images/aruco.jpg>]
-<images/ddrive.jpg, id=194, 645.26785pt x 193.58035pt>
+<images/ddrive.jpg, id=177, 645.26785pt x 193.58035pt>
 File: images/ddrive.jpg Graphic file (type jpg)
  <use images/ddrive.jpg>
+<<<<<<< HEAD
 Package pdftex.def Info: images/ddrive.jpg used on input line 117.
 (pdftex.def)             Requested size: 258.10257pt x 77.43076pt.
 
 <images/xbee.jpg, id=195, 459.7175pt x 459.7175pt>
+=======
+Package pdftex.def Info: images/ddrive.jpg used on input line 120.
+(pdftex.def)             Requested size: 258.10257pt x 77.43076pt.
+
+<images/xbee.jpg, id=178, 459.7175pt x 459.7175pt>
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 File: images/xbee.jpg Graphic file (type jpg)
  <use images/xbee.jpg>
 Package pdftex.def Info: images/xbee.jpg used on input line 117.
 (pdftex.def)             Requested size: 55.16371pt x 55.16371pt.
 
-<images/star.png, id=196, 554.82281pt x 418.56375pt>
+<images/star.png, id=179, 554.82281pt x 418.56375pt>
 File: images/star.png Graphic file (type png)
  <use images/star.png>
 Package pdftex.def Info: images/star.png used on input line 117.
@@ -925,23 +960,39 @@ Package pdftex.def Info: images/star.png used on input line 117.
 [5
 
  <./images/ddrive.jpg> <./images/xbee.jpg> <./images/star.png>]
+<<<<<<< HEAD
 <images/flow.png, id=230, 514.92375pt x 179.92218pt>
+=======
+<images/flow.png, id=213, 514.92375pt x 179.92218pt>
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 File: images/flow.png Graphic file (type png)
  <use images/flow.png>
 Package pdftex.def Info: images/flow.png used on input line 125.
 (pdftex.def)             Requested size: 205.96585pt x 71.96759pt.
 
+<<<<<<< HEAD
 <images/snip0.png, id=232, 386.94562pt x 271.76532pt>
+=======
+<images/snip0.png, id=215, 386.94562pt x 271.76532pt>
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 File: images/snip0.png Graphic file (type png)
  <use images/snip0.png>
 Package pdftex.def Info: images/snip0.png used on input line 125.
 (pdftex.def)             Requested size: 135.43298pt x 95.11928pt.
 
+<<<<<<< HEAD
 <images/snip1.png, id=233, 388.45125pt x 274.02374pt>
+=======
+<images/snip1.png, id=216, 388.45125pt x 274.02374pt>
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
 File: images/snip1.png Graphic file (type png)
  <use images/snip1.png>
 Package pdftex.def Info: images/snip1.png used on input line 125.
 (pdftex.def)             Requested size: 135.95996pt x 95.90974pt.
+
+Overfull \hbox (2.55037pt too wide) in paragraph at lines 128--128
+[][][]  
+ []
 
 [6
 
@@ -985,6 +1036,7 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  17595 strings out of 493333
  334730 string characters out of 3139191
  447698 words of memory out of 3000000
@@ -1001,6 +1053,23 @@ pe1/public/amsfonts/symbols/msam10.pfb>
 Output written on Chirag_presentation.pdf (10 pages, 1255909 bytes).
 PDF statistics:
  426 PDF objects out of 1000 (max. 8388607)
+=======
+ 17623 strings out of 493333
+ 335705 string characters out of 3139203
+ 446871 words of memory out of 3000000
+ 20704 multiletter control sequences out of 15000+200000
+ 11284 words of font info for 41 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 56i,17n,55p,806b,580s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmssbx10.pfb>
+Output written on Chirag_presentation.pdf (10 pages, 1250717 bytes).
+PDF statistics:
+ 406 PDF objects out of 1000 (max. 8388607)
+>>>>>>> 9541241b886d1777c8e8356d865f2711a529ff12
  28 named destinations out of 1000 (max. 500000)
  134 words of extra memory for PDF output out of 10000 (max. 10000000)
 
