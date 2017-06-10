@@ -9,9 +9,9 @@
 #ifndef STRING_PARSE_H_
 #define STRING_PARSE_H_
 
-int get_value();
 void display_data_string();
+void display_data();
 void update_values();
-
+int check_id(char*);
 
 #endif /* STRING_PARSE_H_ */

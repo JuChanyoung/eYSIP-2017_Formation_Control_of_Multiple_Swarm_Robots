@@ -246,3 +246,73 @@ void lcd_line2()
 {
 	lcd_cursor(2,1);
 }
+
+//Function To Print Any input value upto the desired digit on LCD
+void lcd_print_neg(char row, char coloumn, int value, int digits)
+{
+	if (value<0)
+	{
+		value= 0-value;
+		lcd_cursor(row,coloumn);
+		lcd_string("-");
+		coloumn+=1;
+	}
+	
+	unsigned char flag=0;
+	if(row==0||coloumn==0)
+	{
+		lcd_home();
+	}
+	else
+	{
+		lcd_cursor(row,coloumn);
+	}
+	if(digits==5 || flag==1)
+	{
+		million=value/10000+48;
+		lcd_wr_char(million);
+		flag=1;
+	}
+	if(digits==4 || flag==1)
+	{
+		temp = value/1000;
+		thousand = temp%10 + 48;
+		lcd_wr_char(thousand);
+		flag=1;
+	}
+	if(digits==3 || flag==1)
+	{
+		temp = value/100;
+		hundred = temp%10 + 48;
+		lcd_wr_char(hundred);
+		flag=1;
+	}
+	if(digits==2 || flag==1)
+	{
+		temp = value/10;
+		tens = temp%10 + 48;
+		lcd_wr_char(tens);
+		flag=1;
+	}
+	if(digits==1 || flag==1)
+	{
+		unit = value%10 + 48;
+		lcd_wr_char(unit);
+	}
+	if(digits>5)
+	{
+		lcd_wr_char('E');
+	}
+	
+}
+
+void lcd_string2(char row, char coloumn, char *str)
+{
+	lcd_cursor(row, coloumn);
+	
+	while(*str != '\0')
+	{
+		lcd_wr_char(*str);
+		str++;
+	}
+}

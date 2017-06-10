@@ -7,7 +7,7 @@
 
 #include <avr/io.h>
 
-//Timer1 is configured for constant frequency and variable duty cyclr
+//Timer1 is configured for constant frequency and variable duty cycle
 //TIMER1 initialize - prescale:64
 // WGM: 5) PWM 8bit fast, TOP=0x00FF
 // desired value: 450Hz
