@@ -26,6 +26,8 @@ float w;
 float kp;
 int distance;
 
+extern volatile int i;
+
 //Function to initialize ports
 void port_init()
 {
@@ -54,11 +56,11 @@ int main()
 		
 	while(1)
 	{
-		//_delay_ms(100);
+		_delay_ms(100);
  		cli();
  		update_values();
  		sei();
- 		
+						  		
 		distance=sqrt(square(y_req-y_current)+square(x_req-x_current));
 		float er2=theta_current-theta_req; //-360 to 360
 		

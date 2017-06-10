@@ -9,7 +9,7 @@
 #include "LCD.h"
 #include <stdlib.h>
 
-extern volatile char data_string[100];  //to store received data from UDR
+extern volatile char data_string[40];  //to store received data from UDR
 
 extern int id;
 extern int id_var;
@@ -20,34 +20,35 @@ extern int x_req;
 extern int y_req;
 extern int theta_req;
 
-extern volatile char data_string_var[100];
+//static void convert_values(void);
 
 void display_data_string()
 {
-	char data_string1[100];
+	char data_string1[40];
 	strcpy(data_string1, data_string);
-	lcd_cursor(2,1);
-	lcd_string(data_string1);
+	lcd_string2(2,1,data_string1);
 }
 
 void display_data()
 {
-	lcd_print(1,1,x_current,3);
-	lcd_print(1,5,y_current,3);
-	lcd_print(1,9,theta_current,3);
+	lcd_print(1,1,id_var,3);
+	lcd_print(1,5,x_current,3);
+	lcd_print(1,9,y_current,3);
+	lcd_print(1,13,theta_current,3);
+	lcd_print(2,1,x_req,3);
+	lcd_print(2,5,y_req,3);
+	lcd_print(2,9,theta_req,3);
 }
 
 void update_values()
 {
 	char parts[7][10];
-	char data_string1[100];
+	char data_string1[40];
 	strcpy(data_string1, data_string);
 	
 	char *p_start, *p_end;
-	char i=0;
+	unsigned char i=0;
 	p_start = data_string1;
-	
-	//display_data_string();
 	
 		while(1) 
 		{
@@ -73,18 +74,8 @@ void update_values()
 		y_req = atoi(parts[5]);
 		theta_req = abs(atoi(parts[6])-180-360); //(0)-(360)
 	}
-	
-	//lcd_clear();
-	/*
-	lcd_print(1,1,id_var,3);
-	lcd_print(1,5,x_current,3);
-	lcd_print(1,9,y_current,3);
-	lcd_print(1,13,theta_current,3);
-	lcd_print(2,5,x_req,3);
-	lcd_print(2,9,y_req,3);
-	lcd_print(2,13,theta_req,3);
-	*/
 }
+
 
 int check_id(char *p_start)
 {
@@ -94,7 +85,7 @@ int check_id(char *p_start)
 		
 		//char *p_start, *p_end;
 		char *p_end;
-		char i=0;
+		unsigned char i=0;
 		//p_start = data_string1;
 		
 		//display_data_string();

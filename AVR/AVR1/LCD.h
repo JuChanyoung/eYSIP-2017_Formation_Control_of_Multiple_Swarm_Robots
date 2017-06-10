@@ -22,6 +22,7 @@ void lcd_home();
 void lcd_clear(void);
 void lcd_cursor (char, char);
 
+void lcd_string2(char row, char coloumn, char *str);
 void lcd_print_neg(char , char , int , int);
 
 

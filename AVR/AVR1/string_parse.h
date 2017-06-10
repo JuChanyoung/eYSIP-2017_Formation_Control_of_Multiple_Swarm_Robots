@@ -13,5 +13,6 @@ void display_data_string();
 void display_data();
 void update_values();
 int check_id(char*);
+void update();
 
 #endif /* STRING_PARSE_H_ */
