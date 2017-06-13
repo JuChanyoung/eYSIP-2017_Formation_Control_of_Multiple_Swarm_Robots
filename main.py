@@ -69,7 +69,7 @@ def robots(arena,ser,robot,botid,goal):
         pt2=dummy
         print pt1[i],pt2
         cv2.circle(arena,pt2,2,(0,0,255),2)
-        cv2.line(arena,pt1[i], pt2, (0,255,0))
+        #cv2.line(arena,pt1[i], pt2, (0,255,0))
         
         angle_i[i]=robot[i][2]
         #cv2.putText(arena,'robot'+ str(angle_i[3]),(50,70+200) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)        
@@ -129,11 +129,11 @@ def robots(arena,ser,robot,botid,goal):
         print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
 
         if botid==3:
-            xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+            xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         if botid==1:
-            xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+            xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         if botid==0:
-           xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
+           xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
         #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
         #p=ser.read()
         #print 'reading',p
@@ -145,7 +145,7 @@ try:
 except:
     pass
 print 'max bot id'
-pathlen=int(input())+1
+
 
 
 ix,iy = -1,-1
@@ -158,7 +158,7 @@ cap=cv2.VideoCapture(2)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
-dummy=(200,200)
+dummy=()
 start_time=time.time()
 time.sleep(3)
 
@@ -168,34 +168,56 @@ def goalallocate(img_rgb,robot,path,goal):
     cv2.setMouseCallback('arena',draw_circle)
     print path
 
-    
-    
     for botid in robot:
-        
         for count,j in enumerate(path):
+            
             pt3=(robot[botid][0],robot[botid][1])
             pt4=j
             dist_ance[count]=distance(pt3,pt4)
-            goal_index=dist_ance.index(min(dist_ance))
-            goal[botid]=path[goal_index]
-            
+        goal_index=dist_ance.index(min(dist_ance))
         
+        if (goal[botid]==(0,0)):
+            try:
+                goal[botid]=path[goal_index]
+            except:
+                pass
+        try:
+            path.remove(goal[botid])
+        except:
+            pass
             #print 'goal',goal
 
 
-                
-                
+while(1):
+    
+    _,img_rgb=cap.read()
+    
+    #img_rgb=cv2.imread('test_marker 5X50.jpg')
+    arena=mainarea(img_rgb) 
+    #arena=img_rgb
+    robot=aruco_detect(arena,robot)
+    pathlen=len(robot)
+    goalallocate(img_rgb,robot,path,goal)
+
+    print 'path',path
+    print 'goal',goal
+    
+    cv2.imshow('arena',arena)
+    cv2.imshow('Orignal video',img_rgb)
     
     
-    
+    k = cv2.waitKey(20) & 0xFF
+    if k == 47:
+        cv2.destroyAllWindows()
+            
+        break
+
+
+
+
 
 while(1):
 
-
-
-
-
-    
     #print 'path',path
     
     #print 'statr',start_time
@@ -215,8 +237,8 @@ while(1):
         start_time=time_update
         
     #print 'robot dict',robot
-
-    goalallocate(img_rgb,robot,path,goal)
+    
+   # goalallocate(img_rgb,robot,path,goal)
     
     #print 'while',goal
     #goal is a list of pints selected on arena frame index with 0,1,2,....
@@ -224,13 +246,15 @@ while(1):
     #ser is serial initalas
     #arean is arena image
     #bot id is used to
-    
     for i in robot:
-        
-        botid=i
-        robots(arena,ser,robot,botid,goal)
     
-        print 'errrrrrooooo'
+        botid=i
+   
+        if goal[i]!=(0,0):
+            
+            robots(arena,ser,robot,botid,goal)
+       
+        
         
     cv2.imshow('arena',arena)
     cv2.imshow('Orignal video',img_rgb)
