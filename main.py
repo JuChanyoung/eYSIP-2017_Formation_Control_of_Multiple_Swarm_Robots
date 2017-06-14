@@ -74,7 +74,7 @@ def robots(arena,ser,robot,botid,goal):
         pt2=dummy
         print pt1[i],pt2
         cv2.circle(arena,pt2,2,(0,0,255),2)
-        #cv2.line(arena,pt1[i], pt2, (0,255,0))
+        cv2.line(arena,pt1[i], pt2, (0,255,0))
         
         angle_i[i]=robot[i][2]
         #cv2.putText(arena,'robot'+ str(angle_i[3]),(50,70+200) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)        
@@ -133,7 +133,7 @@ def robots(arena,ser,robot,botid,goal):
         #print ids,x,y,theta
         print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
 
-        if botid==3:
+        if botid==2:
             xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         if botid==1:
             xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
@@ -155,11 +155,12 @@ print 'max bot id'
 
 ix,iy = -1,-1
 #path=[]
+
 angle_i=[[],[],[],[]]
 angle_between=[[],[],[],[]]
 angle_dummy=[[],[],[],[]]
 pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(2)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
@@ -168,25 +169,28 @@ start_time=time.time()
 time.sleep(3)
 
 def goalallocate(img_rgb,robot,path,goal):
-
-    drawing = False
-    cv2.setMouseCallback('arena',draw_circle)
-    print path
+    dist_ance=[[],[],[],[],[],[]]
+    #drawing = False
+    #cv2.setMouseCallback('arena',draw_circle)
+    #print path
     
-
     for botid in robot:
         for count,j in enumerate(path):
-            
+
+            print count
             pt3=(robot[botid][0],robot[botid][1])
             pt4=j
             dist_ance[count]=distance(pt3,pt4)
+
+
+            
+        print 'ddddddddddd',dist_ance
         goal_index=dist_ance.index(min(dist_ance))
-        
+        print 'ggggggggggg',goal_index
         if (goal[botid]==(0,0)):
-            try:
-                goal[botid]=path[goal_index]
-            except:
-                pass
+            
+            goal[botid]=path[goal_index]
+          
         try:
             path.remove(goal[botid])
         except:
@@ -262,9 +266,8 @@ while(1):
     
         botid=i
    
-        if goal[i]!=(0,0):
             
-            robots(arena,ser,robot,botid,goal)
+        robots(arena,ser,robot,botid,goal)
        
         
         
