@@ -5,8 +5,13 @@ import time
 import numpy as np
 import cv2
 import serial
+import shapedraw
 from xbee import XBee
 
+print shapedraw.path
+
+
+path=shapedraw.path
 #cal_dist=[]
 #updated path=[]
 '''
@@ -38,9 +43,9 @@ def draw_circle(event,x,y,flags,param):
       #      cv2.circle(img_rgb,(x,y),8,(0,0,255),-1)
     elif event == cv2.EVENT_LBUTTONUP:
         drawing = False
-        if len(path)<pathlen:
-            path.append((x,y))
-            cv2.circle(img_rgb,(x,y),8,(0,0,255),-1)
+        
+        path.append((x,y))
+        cv2.circle('image',(x,y),8,(0,0,255),-1)
    
         
     #print path
@@ -149,12 +154,12 @@ print 'max bot id'
 
 
 ix,iy = -1,-1
-path=[]
+#path=[]
 angle_i=[[],[],[],[]]
 angle_between=[[],[],[],[]]
 angle_dummy=[[],[],[],[]]
 pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(2)
+cap=cv2.VideoCapture(1)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
@@ -167,6 +172,7 @@ def goalallocate(img_rgb,robot,path,goal):
     drawing = False
     cv2.setMouseCallback('arena',draw_circle)
     print path
+    
 
     for botid in robot:
         for count,j in enumerate(path):
@@ -193,8 +199,14 @@ while(1):
     _,img_rgb=cap.read()
     
     #img_rgb=cv2.imread('test_marker 5X50.jpg')
+
+
+    
     arena=mainarea(img_rgb) 
+    
     #arena=img_rgb
+    height,width,_=arena.shape
+    
     robot=aruco_detect(arena,robot)
     pathlen=len(robot)
     goalallocate(img_rgb,robot,path,goal)
