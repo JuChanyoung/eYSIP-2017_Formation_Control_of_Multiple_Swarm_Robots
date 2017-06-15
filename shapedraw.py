@@ -1,12 +1,16 @@
 import cv2
 import numpy as np
+from perspective import *
+
+height=480
+width=640
 
 
-height=500
-width=500
-
-img = np.zeros((height,width,3), np.uint8)
-img[:]=(255,0,0)
+cap=cv2.VideoCapture(1)
+_,img_rgb=cap.read()
+    
+    
+    
 
 
 
@@ -30,8 +34,8 @@ def draw_circle(event,x,y,flags,param):
         cv2.circle(img,(x,y),5,(0,0,255),-1)
         
 
-            
-img = np.zeros((512,512,3), np.uint8)
+
+
 
 
 path=[]
@@ -40,7 +44,11 @@ ls=0
 ss=1000
 ld=0
 sd=-1000
+for i in range(1,10):
+    img=mainarea(img_rgb)
+
 while(1):
+    
     
     cv2.imshow('image',img)
     k = cv2.waitKey(1) & 0xFF
@@ -91,6 +99,7 @@ while(1):
 
     
     if k == 27:
-        break
+        cap.release()
         cv2.destroyAllWindows()
+        break
 
