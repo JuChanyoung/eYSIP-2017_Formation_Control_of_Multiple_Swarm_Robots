@@ -72,7 +72,7 @@ def robots(arena,ser,robot,botid,goal):
         
         pt1[i]=(robot[i][0],robot[i][1])
         pt2=dummy
-        print pt1[i],pt2
+        #print pt1[i],pt2
         cv2.circle(arena,pt2,2,(0,0,255),2)
         cv2.line(arena,pt1[i], pt2, (0,255,0))
         
@@ -103,8 +103,8 @@ def robots(arena,ser,robot,botid,goal):
         #    angle_between=int(angle_i+angle_dummy)
         #if angle_between>0:
         #    angle_between=int(angle_between-180)
-        cv2.putText(arena,'dummy'+ str(angle_dummy[i]),(50+250*i,90) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        cv2.putText(arena, 'error'+str(angle_between[i]),(50+250*i,110) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        ##cv2.putText(arena,'dummy'+ str(angle_dummy[i]),(50+250*i,90) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        ##cv2.putText(arena, 'error'+str(angle_between[i]),(50+250*i,110) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         #cv2.putText(arena, 'error'+str(angle_between[3]),(50,110+70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         #if angle_between<0:
          #   angle_between=angle_between
@@ -118,7 +118,7 @@ def robots(arena,ser,robot,botid,goal):
        
         
         d=distance(pt1[i],pt2)
-        cv2.putText(arena, 'distance'+str(d),(50+250*i,130) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        ##cv2.putText(arena, 'distance'+str(d),(50+250*i,130) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         
         #ids=str(i)
         ##x=str(robot[i][0])
@@ -131,14 +131,18 @@ def robots(arena,ser,robot,botid,goal):
         
         
         #print ids,x,y,theta
-        print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
+       ## print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
 
         if botid==2:
-            xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
-        if botid==1:
             xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+        if botid==1:
+            xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         if botid==0:
-           xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
+           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
+        if botid==3:
+           xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+        
+
         #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
         #p=ser.read()
         #print 'reading',p
@@ -149,7 +153,7 @@ try:
     xbees=XBee(ser)
 except:
     pass
-print 'max bot id'
+#print 'max bot id'
 
 
 
@@ -160,7 +164,7 @@ angle_i=[[],[],[],[]]
 angle_between=[[],[],[],[]]
 angle_dummy=[[],[],[],[]]
 pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(2)
+cap=cv2.VideoCapture(1)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
@@ -169,32 +173,31 @@ start_time=time.time()
 time.sleep(3)
 
 def goalallocate(img_rgb,robot,path,goal):
-    dist_ance=[[],[],[],[],[],[]]
+    
     #drawing = False
     #cv2.setMouseCallback('arena',draw_circle)
     #print path
     
     for botid in robot:
+        dist_ance=[[],[],[],[],[],[]]
         for count,j in enumerate(path):
 
-            print count
+            #print count
             pt3=(robot[botid][0],robot[botid][1])
             pt4=j
             dist_ance[count]=distance(pt3,pt4)
 
 
             
-        print 'ddddddddddd',dist_ance
+        #print 'ddddddddddd',dist_ance
         goal_index=dist_ance.index(min(dist_ance))
-        print 'ggggggggggg',goal_index
+        #print 'ggggggggggg',goal_index
         if (goal[botid]==(0,0)):
-            
+        
             goal[botid]=path[goal_index]
           
-        try:
+        
             path.remove(goal[botid])
-        except:
-            pass
             #print 'goal',goal
 
 
@@ -213,11 +216,12 @@ while(1):
     
     robot=aruco_detect(arena,robot)
     pathlen=len(robot)
+    print robot
     goalallocate(img_rgb,robot,path,goal)
 
     print 'path',path
     print 'goal',goal
-    
+    #print 'goal len',len(goal)
     cv2.imshow('arena',arena)
     cv2.imshow('Orignal video',img_rgb)
     
@@ -243,7 +247,7 @@ while(1):
     arena=mainarea(img_rgb)    
     #arena=img_rgb
     robot=aruco_detect(arena,robot)
-
+    print robot
     time_update=time.time()
     #print 'updated',time_update
     if time_update>start_time+5:
@@ -265,20 +269,15 @@ while(1):
     for i in robot:
     
         botid=i
-   
-            
+        
         robots(arena,ser,robot,botid,goal)
-       
-        
-        
+           
     cv2.imshow('arena',arena)
     cv2.imshow('Orignal video',img_rgb)
     
-    
-
 
     k = cv2.waitKey(20) & 0xFF
     if k == 27:
+        cap.release()
         cv2.destroyAllWindows()
-            
         break
