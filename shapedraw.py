@@ -6,7 +6,7 @@ height=480
 width=640
 
 
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(2)
 _,img_rgb=cap.read()
     
     
@@ -44,14 +44,16 @@ ls=0
 ss=1000
 ld=0
 sd=-1000
-for i in range(1,10):
+l_diff=(100,100)
+for i in range(1,100):
+
     img=mainarea(img_rgb)
 
 while(1):
     
     
-    cv2.imshow('image',img)
-    k = cv2.waitKey(1) & 0xFF
+   
+    k = cv2.waitKey(20) & 0xFF
 
     if k==114:
         cv2.setMouseCallback('image',draw_circle)
@@ -102,4 +104,4 @@ while(1):
         cap.release()
         cv2.destroyAllWindows()
         break
-
+    cv2.imshow('image',img)

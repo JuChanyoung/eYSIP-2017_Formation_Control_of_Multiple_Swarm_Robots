@@ -7,8 +7,9 @@ import cv2
 import serial
 import shapedraw
 from xbee import XBee
-
+from multiprocessing import Process
 print shapedraw.path
+
 
 
 path=shapedraw.path
@@ -56,18 +57,16 @@ def draw_circle(event,x,y,flags,param):
 def distance(pt1,pt2):
     return int(math.sqrt(((pt2[1]-pt1[1])**2)+((pt2[0]-pt1[0])**2)))
 
-def robots(arena,ser,robot,botid,goal):
+def robots(ser,botid,goal):
+        global arena
+        global robot
         
-
         i=botid
         #try:
         #    dummy=goal
         #except:
         #    'no goal'
-        dummy=goal[botid]
-        
-            
-            
+        dummy=goal[botid]    
 
         
         pt1[i]=(robot[i][0],robot[i][1])
@@ -78,7 +77,7 @@ def robots(arena,ser,robot,botid,goal):
         
         angle_i[i]=robot[i][2]
         #cv2.putText(arena,'robot'+ str(angle_i[3]),(50,70+200) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)        
-        cv2.putText(arena,'robot'+ str(angle_i[i]),(50+250*i,70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        ##cv2.putText(arena,'robot'+ str(angle_i[i]),(50+250*i,70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         #if angle_i<0:
         #    angle_i_s=180-angle_i
         
@@ -142,7 +141,6 @@ def robots(arena,ser,robot,botid,goal):
         if botid==3:
            xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         
-
         #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
         #p=ser.read()
         #print 'reading',p
@@ -164,7 +162,7 @@ angle_i=[[],[],[],[]]
 angle_between=[[],[],[],[]]
 angle_dummy=[[],[],[],[]]
 pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(1)
+cap=cv2.VideoCapture(2)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
@@ -172,12 +170,13 @@ dummy=()
 start_time=time.time()
 time.sleep(3)
 
-def goalallocate(img_rgb,robot,path,goal):
+def goalallocate(path,goal):
     
     #drawing = False
     #cv2.setMouseCallback('arena',draw_circle)
     #print path
-    
+    global robo
+    global img_rgb
     for botid in robot:
         dist_ance=[[],[],[],[],[],[]]
         for count,j in enumerate(path):
@@ -206,19 +205,18 @@ while(1):
     _,img_rgb=cap.read()
     
     #img_rgb=cv2.imread('test_marker 5X50.jpg')
-
-
     
     arena=mainarea(img_rgb) 
     
     #arena=img_rgb
-    height,width,_=arena.shape
-    
-    robot=aruco_detect(arena,robot)
-    pathlen=len(robot)
-    print robot
-    goalallocate(img_rgb,robot,path,goal)
+    #height,width,_=arena.shape
 
+    robot=aruco_detect(arena,robot)
+    #pathlen=len(robot)
+    print robot
+    goalallocate(path,goal)
+    robot=aruco_detect(arena,robot)
+    
     print 'path',path
     print 'goal',goal
     #print 'goal len',len(goal)
@@ -228,7 +226,7 @@ while(1):
     
     k = cv2.waitKey(20) & 0xFF
     if k == 47:
-        cv2.destroyAllWindows()
+       
             
         break
 
@@ -237,7 +235,7 @@ while(1):
 
 
 while(1):
-
+    timestart=time.time()
     #print 'path',path
     
     #print 'statr',start_time
@@ -255,7 +253,6 @@ while(1):
         
         
         start_time=time_update
-        
     #print 'robot dict',robot
     
    # goalallocate(img_rgb,robot,path,goal)
@@ -267,17 +264,24 @@ while(1):
     #arean is arena image
     #bot id is used to
     for i in robot:
-    
+        
         botid=i
         
-        robots(arena,ser,robot,botid,goal)
-           
+        #robot=aruco_detect(arena,robot)
+       
+        robots(ser,botid,goal)
+        
     cv2.imshow('arena',arena)
     cv2.imshow('Orignal video',img_rgb)
+   
     
+    endtime=time.time()
+    total=endtime-timestart
 
-    k = cv2.waitKey(20) & 0xFF
+    print 'total',total
+    k = cv2.waitKey(1) & 0xFF
     if k == 27:
         cap.release()
         cv2.destroyAllWindows()
         break
+    
