@@ -4,13 +4,12 @@ from perspective import *
 
 height=480
 width=640
+a=input()
 
-
-cap=cv2.VideoCapture(2)
+cap=cv2.VideoCapture(1)
 _,img_rgb=cap.read()
     
-    
-    
+
 
 
 

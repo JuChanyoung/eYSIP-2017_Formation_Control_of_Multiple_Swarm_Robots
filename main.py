@@ -154,7 +154,7 @@ except:
 #print 'max bot id'
 
 
-
+a=input()
 ix,iy = -1,-1
 #path=[]
 
@@ -162,7 +162,7 @@ angle_i=[[],[],[],[]]
 angle_between=[[],[],[],[]]
 angle_dummy=[[],[],[],[]]
 pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(2)
+cap=cv2.VideoCapture(a)
 robot={}
 dist_ance=[[],[],[],[],[],[]]
 goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
