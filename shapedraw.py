@@ -4,12 +4,11 @@ from perspective import *
 
 height=480
 width=640
-a=input()
 
-cap=cv2.VideoCapture(1)
+
+cap=cv2.VideoCapture(2)
 _,img_rgb=cap.read()
     
-
 
 
 
@@ -46,11 +45,16 @@ sd=-1000
 l_diff=(100,100)
 for i in range(1,100):
 
+
     img=mainarea(img_rgb)
 
+    k = cv2.waitKey(20) & 0xFF
+    
 while(1):
     
-    
+    if k ==97:
+        path=[(190, 284), (269, 67), (357, 285), (314, 176), (221, 177)]
+        break
    
     k = cv2.waitKey(20) & 0xFF
 

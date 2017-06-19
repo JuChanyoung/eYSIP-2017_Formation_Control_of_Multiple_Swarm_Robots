@@ -9,7 +9,8 @@ import numpy as np
 #print "COLS",cols
 
 def mainarea(img_rgb):
-    print' main area funct'
+    
+    
     img_gray=cv2.cvtColor(img_rgb,cv2.COLOR_BGR2GRAY)
     ret,thresh = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
     cv2.imshow('thresh',thresh)
@@ -43,7 +44,7 @@ def mainarea(img_rgb):
             M = cv2.getPerspectiveTransform(pts1,pts2)
 
 
-            arena = cv2.warpPerspective(img_rgb,M,(w,h))
+            arena = cv2.warpPerspective(img_rgb,M,(600,400))
             #cv2.imshow('Arena',arena)
 
             

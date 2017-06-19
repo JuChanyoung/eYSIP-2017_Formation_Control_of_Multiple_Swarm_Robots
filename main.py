@@ -5,14 +5,14 @@ import time
 import numpy as np
 import cv2
 import serial
-import shapedraw
+
 from xbee import XBee
 from multiprocessing import Process
-print shapedraw.path
 
 
 
-path=shapedraw.path
+
+
 #cal_dist=[]
 #updated path=[]
 '''
@@ -137,10 +137,14 @@ def robots(ser,botid,goal):
         if botid==1:
             xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
         if botid==0:
-           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
+           xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
         if botid==3:
            xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
-        
+        if botid==4:
+           xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+        if botid==5:
+           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+
         #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
         #p=ser.read()
         #print 'reading',p
@@ -154,21 +158,23 @@ except:
 #print 'max bot id'
 
 
-a=input()
-ix,iy = -1,-1
-#path=[]
 
-angle_i=[[],[],[],[]]
-angle_between=[[],[],[],[]]
-angle_dummy=[[],[],[],[]]
-pt1=[[],[],[],[]]
-cap=cv2.VideoCapture(a)
+ix,iy = -1,-1
+
+path=[]
+
+angle_i=[[],[],[],[],[],[]]
+angle_between=[[],[],[],[],[],[]]
+angle_dummy=[[],[],[],[],[],[]]
+pt1=[[],[],[],[],[],[]]
+cap=cv2.VideoCapture(1)
 robot={}
-dist_ance=[[],[],[],[],[],[]]
-goal=[(0,0),(0,0),(0,0),(0,0),(0,0)]
+
+goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
 dummy=()
 start_time=time.time()
 time.sleep(3)
+
 
 def goalallocate(path,goal):
     
@@ -188,10 +194,11 @@ def goalallocate(path,goal):
 
 
             
+
         #print 'ddddddddddd',dist_ance
         goal_index=dist_ance.index(min(dist_ance))
         #print 'ggggggggggg',goal_index
-        if (goal[botid]==(0,0)):
+        if (goal[botid]==(0,0)) and path!=[]:
         
             goal[botid]=path[goal_index]
           
@@ -199,60 +206,53 @@ def goalallocate(path,goal):
             path.remove(goal[botid])
             #print 'goal',goal
 
-
-while(1):
-    
-    _,img_rgb=cap.read()
-    
+def movement(path,goal):
+   
+        
+        
+    global img_rgb
+    global arena
+    global robot
     #img_rgb=cv2.imread('test_marker 5X50.jpg')
     
-    arena=mainarea(img_rgb) 
+    
     
     #arena=img_rgb
     #height,width,_=arena.shape
 
-    robot=aruco_detect(arena,robot)
+   
     #pathlen=len(robot)
-    print robot
-    goalallocate(path,goal)
-    robot=aruco_detect(arena,robot)
+
     
+    goalallocate(path,goal)
+    
+    '''
     print 'path',path
     print 'goal',goal
     #print 'goal len',len(goal)
     cv2.imshow('arena',arena)
     cv2.imshow('Orignal video',img_rgb)
-    
-    
-    k = cv2.waitKey(20) & 0xFF
-    if k == 47:
-       
-            
-        break
+    '''
 
-
-
-
-
-while(1):
-    timestart=time.time()
-    #print 'path',path
-    
+    #timestart=time.time()
+    print 'path',path
+    print 'goal',goal
     #print 'statr',start_time
-    _,img_rgb=cap.read()
     
     #img_rgb=cv2.imread('test_marker 5X50.jpg')
-    arena=mainarea(img_rgb)    
+        
     #arena=img_rgb
-    robot=aruco_detect(arena,robot)
+    
     print robot
-    time_update=time.time()
+    #time_update=time.time()
     #print 'updated',time_update
+    '''
     if time_update>start_time+5:
         print 'updated'
         
         
         start_time=time_update
+    '''
     #print 'robot dict',robot
     
    # goalallocate(img_rgb,robot,path,goal)
@@ -263,6 +263,8 @@ while(1):
     #ser is serial initalas
     #arean is arena image
     #bot id is used to
+    for i in path:
+        cv2.circle(arena,i,4,(0,0,255),-1)
     for i in robot:
         
         botid=i
@@ -272,16 +274,37 @@ while(1):
         robots(ser,botid,goal)
         
     cv2.imshow('arena',arena)
-    cv2.imshow('Orignal video',img_rgb)
+    #cv2.imshow('Orignal video',img_rgb)
    
     
-    endtime=time.time()
-    total=endtime-timestart
+    #endtime=time.time()
+    #total=endtime-timestart
 
-    print 'total',total
-    k = cv2.waitKey(1) & 0xFF
+    #print 'total',total
+   
+    
+
+while(1):
+    start_time1=time.time()
+    _,img_rgb=cap.read()
+    arena=mainarea(img_rgb)
+    robot=aruco_detect(arena,robot)
+    movement(path,goal)
+
+    
+    k=cv2.waitKey(20) & 0xFF
+    if k==97:
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=[(190, 284), (269, 67), (357, 285), (314, 176), (221, 177)]
+    if k==35:
+        import shapedraw
+        path=shapedraw.path
     if k == 27:
-        cap.release()
         cv2.destroyAllWindows()
         break
+    if k==121:
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=[(214, 91), (321, 200), (423, 86), (238, 315),(400,300)]
+    end_time1=time.time()
     
+    print 'timeeeee',(end_time1-start_time1)
