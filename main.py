@@ -31,22 +31,27 @@ def draw_circle(event,x,y,flags,param):
     global ix,iy,drawing,mode
     global path
     global pathlen
+    global points
+    global arena
+    
     if event ==cv2.EVENT_RBUTTONDOWN:
         path=[]
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
     
         
     if event == cv2.EVENT_LBUTTONDOWN:
         drawing = True
         ix,iy = x,y
 
-    #elif event == cv2.EVENT_MOUSEMOVE:
-     #   if drawing == True:
-      #      cv2.circle(img_rgb,(x,y),8,(0,0,255),-1)
+    elif (randomshape==True and event == cv2.EVENT_MOUSEMOVE):
+        if drawing==True:
+            points.append((x,y))
+            cv2.circle(arena,(x,y),8,(0,0,255),-1)
+            
     elif event == cv2.EVENT_LBUTTONUP:
         drawing = False
-        
         path.append((x,y))
-        cv2.circle('image',(x,y),8,(0,0,255),-1)
+        cv2.circle(arena,(x,y),8,(0,0,255),-1)
    
         
     #print path
@@ -69,13 +74,13 @@ def robots(ser,botid,goal):
         dummy=goal[botid]    
 
         
-        pt1[i]=(robot[i][0],robot[i][1])
+        pt1=(robot[i][0],robot[i][1])
         pt2=dummy
         #print pt1[i],pt2
         cv2.circle(arena,pt2,2,(0,0,255),2)
-        cv2.line(arena,pt1[i], pt2, (0,255,0))
+        cv2.line(arena,pt1, pt2, (0,255,0))
         
-        angle_i[i]=robot[i][2]
+        angle_i=robot[i][2]
         #cv2.putText(arena,'robot'+ str(angle_i[3]),(50,70+200) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)        
         ##cv2.putText(arena,'robot'+ str(angle_i[i]),(50+250*i,70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         #if angle_i<0:
@@ -84,7 +89,7 @@ def robots(ser,botid,goal):
         #else :
         #    angle_i_s=angle_i
         
-        angle_dummy[i]=angle_calculate(pt2,pt1[i])
+        angle_dummy=angle_calculate(pt2,pt1)
 
 
         
@@ -96,7 +101,7 @@ def robots(ser,botid,goal):
         #if (angle_i<0 and angle_dummy<0):
         #    angle_dummy=-angle_dummy
             
-        angle_between[i]=int(angle_i[i]-angle_dummy[i])
+        angle_between=int(angle_i-angle_dummy)
         
         #if angle_between<-180:
         #    angle_between=int(angle_i+angle_dummy)
@@ -116,7 +121,10 @@ def robots(ser,botid,goal):
         #print'error',angle_between
        
         
-        d=distance(pt1[i],pt2)
+        d=distance(pt1,pt2)
+
+
+        
         ##cv2.putText(arena, 'distance'+str(d),(50+250*i,130) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         
         #ids=str(i)
@@ -133,17 +141,21 @@ def robots(ser,botid,goal):
        ## print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
 
         if botid==2:
-            xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+            xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
         if botid==1:
-            xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+            xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
         if botid==0:
-           xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>') 
+           xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>') 
         if botid==3:
-           xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+           xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
         if botid==4:
-           xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+           xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
         if botid==5:
-           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/#>')
+           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
+        if botid==6:
+           xbees.tx(dest_addr='\x00\x26',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
+        if botid==7:
+           xbees.tx(dest_addr='\x00\x27',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
 
         #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
         #p=ser.read()
@@ -151,7 +163,7 @@ def robots(ser,botid,goal):
 
 
 try:
-    ser=serial.Serial(port='COM8',baudrate=9600)
+    ser=serial.Serial(port='COM8',baudrate=115200)
     xbees=XBee(ser)
 except:
     pass
@@ -159,21 +171,7 @@ except:
 
 
 
-ix,iy = -1,-1
 
-path=[]
-
-angle_i=[[],[],[],[],[],[]]
-angle_between=[[],[],[],[],[],[]]
-angle_dummy=[[],[],[],[],[],[]]
-pt1=[[],[],[],[],[],[]]
-cap=cv2.VideoCapture(1)
-robot={}
-
-goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-dummy=()
-start_time=time.time()
-time.sleep(3)
 
 
 def goalallocate(path,goal):
@@ -184,7 +182,7 @@ def goalallocate(path,goal):
     global robo
     global img_rgb
     for botid in robot:
-        dist_ance=[[],[],[],[],[],[]]
+        dist_ance=[[],[],[],[],[],[],[],[]]
         for count,j in enumerate(path):
 
             #print count
@@ -198,6 +196,7 @@ def goalallocate(path,goal):
         #print 'ddddddddddd',dist_ance
         goal_index=dist_ance.index(min(dist_ance))
         #print 'ggggggggggg',goal_index
+        
         if (goal[botid]==(0,0)) and path!=[]:
         
             goal[botid]=path[goal_index]
@@ -281,30 +280,132 @@ def movement(path,goal):
     #total=endtime-timestart
 
     #print 'total',total
-   
+
+def drawshape():
+    global points
+    global arena
+    ls=0
+    ss=1000
+    ld=0
+    sd=-1000
+    l_diff=(100,100)
+    
+    
+    for i in points:
+        ts=i[0]+i[1]
+            
+        if ts>ls:
+            ls=ts
+            l_sum=i
+            
+        if ts<ss:
+            ss=ts
+            s_sum=i
+
+        td=i[0]-i[1]
+
+        if td<ld:
+            ld=td
+            l_diff=i
+            
+        if td>sd:
+            sd=td
+            s_diff=i
+
+
+        
+        print l_sum,s_sum
+        print ls
+    cv2.circle(arena,(l_sum),5,(0,255,255),-1)
+    cv2.circle(arena,(s_sum),5,(255,0,255),-1)
+    cv2.circle(arena,(l_diff),5,(255,0,0),-1)
+    cv2.circle(arena,(s_diff),5,(0,255,0),-1)
+    path=[l_sum,s_sum,l_diff,s_diff]
+    return path
+
     
 
+
+   
+ix,iy = -1,-1
+
+path=[]
+
+#angle_i=[[],[],[],[],[],[]]
+#angle_between=[[],[],[],[],[],[]]
+#angle_dummy=[[],[],[],[],[],[]]
+#pt1=[[],[],[],[],[],[]]
+cap=cv2.VideoCapture(1)
+robot={}
+goal_initial=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+goal=goal_initial
+points=[]
+dummy=()
+start_time=time.time()
+time.sleep(3)
+randompoint=False
+randomshape=False
+drawing=False
 while(1):
+    
+    
+            
+    if randompoint==True or randomshape==True:
+        cv2.setMouseCallback('arena',draw_circle)
+        
     start_time1=time.time()
     _,img_rgb=cap.read()
+    #img_rgb= cv2.bilateralFilter(img_rgb,9,75,75)
     arena=mainarea(img_rgb)
     robot=aruco_detect(arena,robot)
     movement(path,goal)
+    print points
+    k=cv2.waitKey(20) & 0xFF
+
 
     
-    k=cv2.waitKey(20) & 0xFF
-    if k==97:
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+    if k==97: #  A
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
         path=[(190, 284), (269, 67), (357, 285), (314, 176), (221, 177)]
-    if k==35:
-        import shapedraw
-        path=shapedraw.path
+
+    if k==101: #  e
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path= [(290, 206), (353, 187), (339, 134), (257, 131), (222, 206), (246, 280), (320, 302), (381, 290)]
+
+  
+    if k==47:#/ random points
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=[]
+        randompoint=True
+        randomshape=False
+    if k==46: #. initialize shape draw
+        randomshape=True
+        randompoint=False
+        
+    if k==44:#, execute shape draw
+        andomshape=False
+        randompoint=False
+        path=[]
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=drawshape()
+        points=[]
+    if k==69:
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=[(389, 97), (218, 99), (219, 225), (222, 342), (394, 347), (312, 224)]
+        
     if k == 27:
         cv2.destroyAllWindows()
         break
-    if k==121:
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=[(214, 91), (321, 200), (423, 86), (238, 315),(400,300)]
+    if k==121: #Y
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=path=[(199, 89), (440, 85), (334, 203), (244, 295), (176, 364)]
+        #path=[(199, 89), (440, 85), (334, 203), (244, 295), (176, 364)]#[(214, 91), (321, 200), (423, 86), (238, 315),(400,300)]
+
+    if k==78:#N
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        path=[(213, 318), (216, 197), (219, 88), (419, 87), (416, 199), (418, 320), (280, 160), (345, 241)]
+        
+
     end_time1=time.time()
     
-    print 'timeeeee',(end_time1-start_time1)
+    print 'timeeeee',(time.time()-start_time1)
