@@ -1,3 +1,14 @@
+'''
+File Name:main.py
+Prohject:Formation control in swarm robotics
+Funtions:draw_shape,draw_circle,distance,robot_comamand,goal_allocate,chunkIt,movement,drawshape
+Global Variable:ix,iy,path,ser,xbees,cap,robot,goal_initial,goal,points,dummy,randompoint,randomshape
+                    drawing,canavas_bool,check,img_rgb,distancemat,anglemat,obstacleavoid
+                    
+'''
+
+
+
 from aruco import *
 from perspective import *
 import math
@@ -5,28 +16,46 @@ import time
 import numpy as np
 import cv2
 import serial
-
+from alphabet import * 
 from xbee import XBee
-from multiprocessing import Process
 
 
-
-
-
-#cal_dist=[]
-#updated path=[]
 '''
-def distcheck(robot,path):
-    for i in robot:
-        for count,j enumerate path:
-            pt1=(robot[i][0],robot[i][1])
-            pt2=path[j]
-            cal_dist[count][=distance(pt1,pt2)
-            updated_path[i]=min(cal_dist)
+Function Name: draw_shape
+Input: Event flag, x ,y ,flags,param
+Output:Returns the x,y coordinate and appends it to points list 
+Logic: these function is called by  mouse handler function
+        it records all the x,y position of the mouse when button is pressed and moved in the window
+Example call: cv2.setMouseCallback('canavas',draw_shape) canavas is the targeted windo
+
 '''
+def draw_shape(event,x,y,flags,param):
+    global ix,iy,drawing,mode
+    global canavas
+    global height
+    global width
+    if event ==cv2.EVENT_RBUTTONDOWN: #true when mouse right button down
+        canavas=np.zeros((height,width,3), np.uint8)
+        
+    if event == cv2.EVENT_LBUTTONDOWN: #true when left button down
+        drawing = True  #flag to enable drag like event
+        ix,iy = x,y
+
+    elif  event == cv2.EVENT_MOUSEMOVE: #tru when mouse is pressed and move
+        if drawing==True:
+            points.append((x,y))  #add (x,y) to poits array
+            cv2.circle(canavas,(x,y),5,(0,255,255),-1) #draw circle on the target window
+            
+    elif event == cv2.EVENT_LBUTTONUP: #true when left button released
+        drawing = False
+        cv2.circle(canavas,(x,y),5,(0,255,255),-1)
+        points.append((x,y)) #add (x,y) to points array
 
 
-                            
+'''this function is called by mouse handeler function
+it appends the path list with x,y coordinate of mouse in window for every mouse down and following release. 
+
+'''                        
 def draw_circle(event,x,y,flags,param):
     global ix,iy,drawing,mode
     global path
@@ -46,366 +75,414 @@ def draw_circle(event,x,y,flags,param):
     elif (randomshape==True and event == cv2.EVENT_MOUSEMOVE):
         if drawing==True:
             points.append((x,y))
-            cv2.circle(arena,(x,y),8,(0,0,255),-1)
+            cv2.circle(arena,(x,y),8,(255,255,255),-1)
             
     elif event == cv2.EVENT_LBUTTONUP:
         drawing = False
         path.append((x,y))
-        cv2.circle(arena,(x,y),8,(0,0,255),-1)
+        cv2.circle(arena,(x,y),8,(255,255,255),-1)
    
-        
-    #print path
-
-#x_center=[[],[],[]]
-#y_center=[[],[],[]]
-
+'''
+Function name:distance
+Input:x,y coordinate of two points
+Output:distnace between two points
+Logic:This function is used to calculate the distance between two points
+Example Call: distance((100,100),(200,200))
+'''
 def distance(pt1,pt2):
-    return int(math.sqrt(((pt2[1]-pt1[1])**2)+((pt2[0]-pt1[0])**2)))
 
-def robots(ser,botid,goal):
+    return int(math.sqrt(((pt2[1]-pt1[1])**2)+((pt2[0]-pt1[0])**2))) #math.sqrt for square root of number
+
+
+
+'''
+Function name:robot_command
+Input:serial comm. object 'ser',marker id 'botid',array of goal points'goal'
+Output:Sends packets to the desired xbee
+Logic:The robot_command function takes the arguments 'ser' for serial communication,'botid' i.e the id of aruco marker and the list of goal points selected.
+The funtion calculates the angle between the robot and the goal point of the robot.
+Xbees.tx function is used to send data packets to xbee connected serially to the PC .
+Example Call:robot_command(ser,1,(200,200)) sends commaand to bot id 1 with goal location as (200,200)
+
+'''
+def robot_command(ser,botid,goal):
         global arena
         global robot
         
         i=botid
-        #try:
-        #    dummy=goal
-        #except:
-        #    'no goal'
         dummy=goal[botid]    
 
         
         pt1=(robot[i][0],robot[i][1])
         pt2=dummy
-        #print pt1[i],pt2
+        
         cv2.circle(arena,pt2,2,(0,0,255),2)
         cv2.line(arena,pt1, pt2, (0,255,0))
         
         angle_i=robot[i][2]
-        #cv2.putText(arena,'robot'+ str(angle_i[3]),(50,70+200) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)        
-        ##cv2.putText(arena,'robot'+ str(angle_i[i]),(50+250*i,70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        #if angle_i<0:
-        #    angle_i_s=180-angle_i
-        
-        #else :
-        #    angle_i_s=angle_i
-        
+                
         angle_dummy=angle_calculate(pt2,pt1)
+        
+     
+        if obstacleavoid==False:
+            if botid==0:
+               xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==1:
+               xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==2:
+               xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==3:
+               xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==4:
+               xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==5:
+               xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==6:
+               xbees.tx(dest_addr='\x00\x26',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
+            if botid==7:
+               xbees.tx(dest_addr='\x00\x27',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/'+'0'+'0'+'/#>')
 
-
-        
-        
-
-        #if (angle_i<0 and angle_dummy>0):
-        #    print'iififififi'
-        #    angle_dummy=-angle_dummy
-        #if (angle_i<0 and angle_dummy<0):
-        #    angle_dummy=-angle_dummy
-            
-        angle_between=int(angle_i-angle_dummy)
-        
-        #if angle_between<-180:
-        #    angle_between=int(angle_i+angle_dummy)
-        #if angle_between>0:
-        #    angle_between=int(angle_between-180)
-        ##cv2.putText(arena,'dummy'+ str(angle_dummy[i]),(50+250*i,90) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        ##cv2.putText(arena, 'error'+str(angle_between[i]),(50+250*i,110) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        #cv2.putText(arena, 'error'+str(angle_between[3]),(50,110+70) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        #if angle_between<0:
-         #   angle_between=angle_between
-
-        #print 'angledummy',angle_dummy  
-        
-        #print 'angle_i',angle_i
-       
-        
-        #print'error',angle_between
-       
-        
-        d=distance(pt1,pt2)
-
-
-        
-        ##cv2.putText(arena, 'distance'+str(d),(50+250*i,130) ,cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        
-        #ids=str(i)
-        ##x=str(robot[i][0])
-        #y=str(robot[i][1])
-        #theta=str(angle_i[i]+360)
-        #print 'angle current', theta
-        #print 'angle req', angle_between
-        
-        
-        
-        
-        #print ids,x,y,theta
-       ## print ('.'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy[i]+360)+'/')
-
-        if botid==2:
-            xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==1:
-            xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==0:
-           xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>') 
-        if botid==3:
-           xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==4:
-           xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==5:
-           xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==6:
-           xbees.tx(dest_addr='\x00\x26',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-        if botid==7:
-           xbees.tx(dest_addr='\x00\x27',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/#>')
-
-        #ser.write('?'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(dummy[0])+'/'+str(dummy[1])+'/'+str(angle_dummy+360)+'/')
-        #p=ser.read()
-        #print 'reading',p
-
+      
 
 try:
     ser=serial.Serial(port='COM8',baudrate=115200)
     xbees=XBee(ser)
 except:
     pass
-#print 'max bot id'
 
 
 
 
 
 
+'''
+Function Name:goalallocate
+Input:path array,goal array
+Output:elements in path get transferred to goal array where index is id of robot 
+Logic:path is the list of raw points selected on the canavas
+Goal is the list of points allocated to each robot, index of goal list denotes the id of the marker and the the data in that index is the goal point for the robot of that marker
+this function iterate through the path list and the robot list and finds the shortest distance goal for each robot which is moved to respective goal indexes.
+the path list becomes empty if all bots get a goal point.
+Example Call:goalallocate(path,goal)
+
+'''
 def goalallocate(path,goal):
     
-    #drawing = False
-    #cv2.setMouseCallback('arena',draw_circle)
-    #print path
-    global robo
-    global img_rgb
-    for botid in robot:
-        dist_ance=[[],[],[],[],[],[],[],[]]
-        for count,j in enumerate(path):
+   
+    global robot #dictionary of detected robots
+    global img_rgb #image captured by the camera
+    for botid in robot: #loop to iterate every id in robot dict.
+        distance_list=[[],[],[],[],[],[],[],[]] #distance list initialize
+        for count,j in enumerate(path): #loop to calculate distance of all oint from the robot 
 
-            #print count
-            pt3=(robot[botid][0],robot[botid][1])
+            
+            pt3=(robot[botid][0],robot[botid][1]) 
             pt4=j
-            dist_ance[count]=distance(pt3,pt4)
+            distance_list[count]=distance(pt3,pt4)
 
 
             
 
-        #print 'ddddddddddd',dist_ance
-        goal_index=dist_ance.index(min(dist_ance))
-        #print 'ggggggggggg',goal_index
+        
+        goal_index=distance_list.index(min(distance_list)) #selecting minimum distance value from the distance list of 1 robot 
+        
         
         if (goal[botid]==(0,0)) and path!=[]:
         
-            goal[botid]=path[goal_index]
+            goal[botid]=path[goal_index] #replacing goal(0,0) with a valid goal point where index of goal list represent id 
           
         
-            path.remove(goal[botid])
-            #print 'goal',goal
-
+            path.remove(goal[botid]) # remove the point moved to goal array from path list
+            
+'''
+Function Name:movement
+Input:path,goal
+Output:calling functions goalallocate and robot_command for every key in robot dictionary
+Logic:movement function calls the function goal allocate and robot_command
+robot_command is called for every element in the robot dictionary.
+Example Call:movement(path,goal))
+'''
 def movement(path,goal):
    
-        
-        
-    global img_rgb
+    global img_rgb 
     global arena
     global robot
-    #img_rgb=cv2.imread('test_marker 5X50.jpg')
-    
-    
-    
-    #arena=img_rgb
-    #height,width,_=arena.shape
-
    
-    #pathlen=len(robot)
 
     
     goalallocate(path,goal)
-    
-    '''
-    print 'path',path
-    print 'goal',goal
-    #print 'goal len',len(goal)
-    cv2.imshow('arena',arena)
-    cv2.imshow('Orignal video',img_rgb)
-    '''
-
-    #timestart=time.time()
-    print 'path',path
-    print 'goal',goal
-    #print 'statr',start_time
-    
-    #img_rgb=cv2.imread('test_marker 5X50.jpg')
-        
-    #arena=img_rgb
-    
-    print robot
-    #time_update=time.time()
-    #print 'updated',time_update
-    '''
-    if time_update>start_time+5:
-        print 'updated'
-        
-        
-        start_time=time_update
-    '''
-    #print 'robot dict',robot
-    
-   # goalallocate(img_rgb,robot,path,goal)
-    
-    #print 'while',goal
-    #goal is a list of pints selected on arena frame index with 0,1,2,....
-    #robot is dictionay of robot id x,y,angle
-    #ser is serial initalas
-    #arean is arena image
-    #bot id is used to
-    for i in path:
-        cv2.circle(arena,i,4,(0,0,255),-1)
-    for i in robot:
+   
+    for i in robot: 
         
         botid=i
-        
-        #robot=aruco_detect(arena,robot)
        
-        robots(ser,botid,goal)
+        robot_command(ser,botid,goal) #robot_command is called for every key in robot dictionary
         
-    cv2.imshow('arena',arena)
-    #cv2.imshow('Orignal video',img_rgb)
-   
-    
-    #endtime=time.time()
-    #total=endtime-timestart
+    cv2.imshow('arena',arena) # show the image catured by image
 
-    #print 'total',total
 
+
+
+'''
+Function Name:chunkIt
+Input:array,no of parts
+Output:array split in desired no of smaller arrays
+Logic:this function is used to slice the list in eight parts based on the average ,
+it ensures the list is divided in parts regardless of the no of elements in each part
+Example Call:chunkIt(array,8)
+
+'''
+def chunkIt(seq, num):
+  avg = len(seq) / float(num)
+  out = []
+  last = 0.0
+
+  while last < len(seq):
+    out.append(seq[int(last):int(last + avg)])
+    last += avg
+
+  return out
+
+
+'''
+Function Name:drawshape
+Input:8 list
+Output:8 points path list
+Logic:This function calls the chunkIt function which gives a list of 8 lists
+The average of each list is taken and hence 8 points are obtained from 8 lists.
+Example Call:
+
+'''
 def drawshape():
-    global points
-    global arena
-    ls=0
-    ss=1000
-    ld=0
-    sd=-1000
-    l_diff=(100,100)
-    
-    
-    for i in points:
-        ts=i[0]+i[1]
-            
-        if ts>ls:
-            ls=ts
-            l_sum=i
-            
-        if ts<ss:
-            ss=ts
-            s_sum=i
+    #print points
+    chunk=chunkIt(points,8) #big array spilt into small arrays
+ 
 
-        td=i[0]-i[1]
-
-        if td<ld:
-            ld=td
-            l_diff=i
-            
-        if td>sd:
-            sd=td
-            s_diff=i
-
-
+    for i in range(len(chunk)):
+        #print i
+        sumx=0
+        sumy=0
+        for j in (chunk[i]):
+            #print j
+            sumx=(j[0]+sumx) # sum all x values
+            sumy=(j[1]+sumy) #sum all y values
+        tx=sumx/len(chunk[i]) #average (sum/no of elements)
+        ty=sumy/len(chunk[i])
         
-        print l_sum,s_sum
-        print ls
-    cv2.circle(arena,(l_sum),5,(0,255,255),-1)
-    cv2.circle(arena,(s_sum),5,(255,0,255),-1)
-    cv2.circle(arena,(l_diff),5,(255,0,0),-1)
-    cv2.circle(arena,(s_diff),5,(0,255,0),-1)
-    path=[l_sum,s_sum,l_diff,s_diff]
+        path.append((tx,ty)) # add the average point in the path list
+        
+        cv2.circle(arena,(tx,ty),5,(255,255,0),-1) #draw average point 
+       # print sumx,sumy,tx,ty
+       # print path
     return path
 
+
+
+'''Function Name:obstacle avoid
+Input:robot dictionary
+Output:xbee packet to trigger robot to move left right and avoid collision
+Logic:This function is used to calculate the distance and angle between robots.
+Distance matrix and anglematrix is used to save the distance and angle between each robot to robot.
+
+Also np.where function is used to regularly check if any value in the list is below the threshhold value.
+
+if any value of distance and angle matrix is less than the defined threshhold value indicated that some another bot is approching collision.
+A signal is send to the robot with flag 1 or 2  and the angle dependng on left ,right motion it should take in order to avoid collision
+
+Example Call:obstacle avoid(robot)'''
+
+            
+def obstacle_avoid(robot):
+
+    '''distance matrix-a distance matrix is a square matrix (two-dimensional array) containing the distances, taken pairwise, between the elements of a set.'''
+
+    '''angle matrix-an angle matrix matrix is a square matrix (two-dimensional array) containing the angles, taken pairwise, between the elements of a set
+    Here the angles are relative angles'''
+    for i in robot:
+        for j in robot:
+            try:
+                
+                distancemat[i][j]=distance((robot[i][0],robot[i][1]),(robot[j][0],robot[j][1])) #distance b/w robot i and robot j
+            except:
+                pass
+            obsy=(robot[j][1]-robot[i][1])
+            obsx=(robot[j][0]-robot[i][0])
+            angle_360=angle_calculate((robot[j][0],robot[j][1]),(robot[i][0],robot[i][1]))-robot[i][2] #angle b/w robot i and robot j, with respect to angle of robot i (relative angle)
+            
+            try:
+                anglemat[i][j]=math.degrees(math.atan2(math.sin(angle_360*(math.pi/180)),math.cos(angle_360*(math.pi/180)))) #relative angle in range(-180 to 180) 
+            except:
+                pass
+          
+            try:
+                item=np.where(np.logical_and(distancemat[i][j]<80,distancemat[i][j]>0))  #searching distance matrix
+                an=np.where(np.logical_and(anglemat[i][j]<90 , anglemat[i][j]>-90))     #searching angle matrix
+            except:
+                pass
+            #print i,j,len(an[0]),len(item[0])
+            if (len(an[0])!=0)  and i!=j and len(item[0])!=0  : #condition for threshhold
+                obstacleavoid=True
+                #print 'trig',i,j,distancemat[i][j],anglemat[i][j]
+
+                sendangle=90-abs(anglemat[i][j]) #turning angle for bot.
+
+                '''
+                send command to bot 'left' or 'right' and the angle for turning
+                '''
+                
+                if anglemat[i][j]>0 and (i<8 or i>=0):
+                    #print 'left'
+                    if i==2:
+                        xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i==1:
+                        xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i==0:
+                        xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i ==3:
+                        xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i ==4:
+                        xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i ==5:
+                        xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i ==6:
+                        xbees.tx(dest_addr='\x00\x26',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+                    if i ==7:
+                        xbees.tx(dest_addr='\x00\x27',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'1'+'/'+str(sendangle)+'/#>')
+
+
+
+
+                elif anglemat[i][j]<=0 and (i<8 or i>=0):
+                    #print 'right'
+
+                    if i==2:
+                        xbees.tx(dest_addr='\x00\x22',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i==1:
+                        xbees.tx(dest_addr='\x00\x21',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i==0:
+                        xbees.tx(dest_addr='\x00\x20',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i ==3:
+                        xbees.tx(dest_addr='\x00\x23',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i ==4:
+                        xbees.tx(dest_addr='\x00\x24',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i ==5:
+                        xbees.tx(dest_addr='\x00\x25',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i ==6:
+                        xbees.tx(dest_addr='\x00\x26',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+                    if i ==7:
+                        xbees.tx(dest_addr='\x00\x27',data='<#'+str(i)+'/'+str(robot[i][0])+'/'+str(robot[i][1])+'/'+str(robot[i][2]+360)+'/'+str(0)+'/'+str(0)+'/'+str(0)+'/'+'2'+'/'+str(sendangle)+'/#>')
+            else:
+                obstacleavoid=False #obstacle avoid mode off
+
+
+    
+                #print 'angle',j,distancemat[j][i],anglemat[j][i]
+           
+               # print 'angle',j,i,distancemat[i][j],anglemat[i][j]
+
     
 
 
-   
-ix,iy = -1,-1
+    
+ix,iy = -1,-1 #initail value of x,y of mouse ointer
 
-path=[]
-
-#angle_i=[[],[],[],[],[],[]]
-#angle_between=[[],[],[],[],[],[]]
-#angle_dummy=[[],[],[],[],[],[]]
-#pt1=[[],[],[],[],[],[]]
-cap=cv2.VideoCapture(1)
-robot={}
-goal_initial=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+path=[] #lsit of un alocated goal points
+try: #change the comm port to the com por on which ebee is connected
+    ser=serial.Serial(port='COM8',baudrate=115200) #object of serial function to enable serial communication
+    xbees=XBee(ser) #objec of XBee function to enable packet generation
+except:
+    pass
+#change the paramete to change the camera
+cap=cv2.VideoCapture(2) #object to enable image read from camera and open com port of camera
+robot={} #initialize dictionary
+goal_initial=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)] # initial goal point for robot
 goal=goal_initial
-points=[]
-dummy=()
+points=[] # list to save raw points made on canvas
 start_time=time.time()
-time.sleep(3)
-randompoint=False
-randomshape=False
-drawing=False
+
+randompoint=False #random point mode off 
+randomshape=False #random shape off
+drawing=False #drawing mode off
+canavas_bool=False #canavas enable off
+
+
+check,img_rgb=cap.read() # read image from camera
+distancemat=np.zeros((8,8),dtype=int) #8*8 distance matrix with all element zero
+anglemat=np.zeros((8,8),dtype=int) #8*8 angle matrix with all element zero
+obstacleavoid=False #obstacle avoid mode off
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output2.avi',fourcc, 20.0, (640,480))
+
+
+
+'''
+this funtion checks if there is a video or not on the sepicified COM port
+It gives and error and ask for COM port if video is not detected.
+'''
+while check!=True:   
+    print 'error video not found' #error msg when video feed not found
+    camport=input('Enter cam port number (0,1,2....') #ask for comport number
+    cap=cv2.VideoCapture(camport) 
+    check,img_rgb=cap.read()
+    
+'''
+this while loop is used captur video from the camera and call all the functions at eevery frame refresh
+
+'''
 while(1):
     
-    
+    if canavas_bool==True: #creates a black canavas and enables mouse clicks to draw shapes and record point
+        cv2.imshow('canavas',canavas) # show canavas
+        cv2.setMouseCallback('canavas',draw_shape)  #Sets mouse handler for the specified window
             
-    if randompoint==True or randomshape==True:
-        cv2.setMouseCallback('arena',draw_circle)
+    if randompoint==True or randomshape==True: #enable point by point selection of goal
+        cv2.setMouseCallback('arena',draw_circle) #calls draw_circle on window arrena
         
-    start_time1=time.time()
-    _,img_rgb=cap.read()
-    #img_rgb= cv2.bilateralFilter(img_rgb,9,75,75)
-    arena=mainarea(img_rgb)
-    robot=aruco_detect(arena,robot)
-    movement(path,goal)
-    print points
-    k=cv2.waitKey(20) & 0xFF
-
-
+    start_time1=time.time()   # record the time at which the statement is called
+    _,img_rgb=cap.read()  # read frame from  the camera
+    arena=mainarea(img_rgb)  #calls main arena function in perpective.py 'arena' is image matrix of black box area in camera image
     
-    if k==97: #  A
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=[(190, 284), (269, 67), (357, 285), (314, 176), (221, 177)]
+    robot=aruco_detect(arena,robot) #calls function aruco_detect in aruco.py gives a dictionary'robot' ontaining id of marker as key and location and orientaion as element
+    
+    obstacle_avoid(robot) # calls obstacle avoid function to check distance matrix and angle matrix 
+    movement(path,goal)  # calls movement function when calls goalallocate and robot_command to send xbee packets to the bot to move
+    
+ 
+    height,width,_=arena.shape #height and width of the arena image
 
-    if k==101: #  e
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path= [(290, 206), (353, 187), (339, 134), (257, 131), (222, 206), (246, 280), (320, 302), (381, 290)]
+        
+    k=cv2.waitKey(20) & 0xFF # keyboard trigger also kind of delayS
+
+    goal,path=character(k,goal,path) #calls the character function in alphabet.py to allocate path matrix and goal matrix
 
   
     if k==47:#/ random points
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=[]
-        randompoint=True
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)] # set all goals to (0,0) stops all robots
+        path=[] 
+        randompoint=True # enable randompoint mode
+        randomshape=False #disable drawshape mode
+   
+    if k==33 :#! initialize canvas
+        canavas_bool=True #enable canvas
+        canavas=np.zeros((height,width,3), np.uint8) # creaets a canavas 
+    if k==35:#, execute shape draw
         randomshape=False
-    if k==46: #. initialize shape draw
-        randomshape=True
-        randompoint=False
-        
-    if k==44:#, execute shape draw
-        andomshape=False
         randompoint=False
         path=[]
         goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
         path=drawshape()
         points=[]
-    if k==69:
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=[(389, 97), (218, 99), (219, 225), (222, 342), (394, 347), (312, 224)]
         
-    if k == 27:
-        cv2.destroyAllWindows()
+    if k == 27:#esc stops script
+        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        robot=aruco_detect(arena,robot)
+        movement(path,goal)
+        cv2.destroyAllWindows()# DESTROYE ALL windows
         break
-    if k==121: #Y
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=path=[(199, 89), (440, 85), (334, 203), (244, 295), (176, 364)]
-        #path=[(199, 89), (440, 85), (334, 203), (244, 295), (176, 364)]#[(214, 91), (321, 200), (423, 86), (238, 315),(400,300)]
-
-    if k==78:#N
-        goal=[(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
-        path=[(213, 318), (216, 197), (219, 88), (419, 87), (416, 199), (418, 320), (280, 160), (345, 241)]
-        
-
-    end_time1=time.time()
     
-    print 'timeeeee',(time.time()-start_time1)
+
+
+        
+   
+
+    print 'timeeeee',(time.time()-start_time1) #gives time take by 1 iteration of the loop 
