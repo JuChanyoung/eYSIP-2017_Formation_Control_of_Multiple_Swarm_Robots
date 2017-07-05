@@ -1,0 +1,36 @@
+\BOOKMARK [0][-]{chapter.1}{Formation Control of Multiple Swarm Robots}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Abstract}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Project Overview}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Completion status}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Hardware parts}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.5}{Software}{chapter.1}% 6
+\BOOKMARK [2][-]{subsection.1.5.1}{IDEs used}{section.1.5}% 7
+\BOOKMARK [2][-]{subsection.1.5.2}{Libraries used for Python v2.7.12}{section.1.5}% 8
+\BOOKMARK [2][-]{subsection.1.5.3}{Other Software}{section.1.5}% 9
+\BOOKMARK [0][-]{chapter.2}{XBee Configuration}{}% 10
+\BOOKMARK [1][-]{section.2.1}{API mode}{chapter.2}% 11
+\BOOKMARK [2][-]{subsection.2.1.1}{Coordinator}{section.2.1}% 12
+\BOOKMARK [2][-]{subsection.2.1.2}{End device}{section.2.1}% 13
+\BOOKMARK [1][-]{section.2.2}{AT mode}{chapter.2}% 14
+\BOOKMARK [2][-]{subsection.2.2.1}{Coordinator}{section.2.2}% 15
+\BOOKMARK [2][-]{subsection.2.2.2}{End device}{section.2.2}% 16
+\BOOKMARK [0][-]{chapter.3}{Spark V Programming}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Setting up Spark V}{chapter.3}% 18
+\BOOKMARK [2][-]{subsection.3.1.1}{Programming the Spark V using AVRDude}{section.3.1}% 19
+\BOOKMARK [2][-]{subsection.3.1.2}{Programming the Spark V using Atmel studio and AVRDude}{section.3.1}% 20
+\BOOKMARK [1][-]{section.3.2}{XBee interfacing with Spark V}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.3}{Parsing the String}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.4}{Go-to-Goal and PID}{chapter.3}% 23
+\BOOKMARK [1][-]{section.3.5}{Collision avoidance}{chapter.3}% 24
+\BOOKMARK [0][-]{chapter.4}{Python Programming}{}% 25
+\BOOKMARK [1][-]{section.4.1}{Video Capture}{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.2}{Arena Black Box Extraction}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.3}{ArUco Detection}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.4}{Collision Avoidance}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.5}{Goal Point allocation}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.6}{Robot Movement}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.7}{Xbee Communication}{chapter.4}% 32
+\BOOKMARK [0][-]{chapter.5}{Project Tag}{}% 33
+\BOOKMARK [1][-]{section.5.1}{Challanges}{chapter.5}% 34
+\BOOKMARK [1][-]{section.5.2}{Bug report}{chapter.5}% 35
+\BOOKMARK [1][-]{section.5.3}{Future Work}{chapter.5}% 36

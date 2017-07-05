@@ -1,0 +1,9 @@
+\BOOKMARK [0][-]{chapter.1}{Project Tag}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Setting up Spark V}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{Programming the Spark V using AVRDude}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{Programming the Spark V using Atmel studio and AVRDude}{section.1.1}% 4
+\BOOKMARK [1][-]{section.1.2}{XBee interfacing with Spark V}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.3}{Parsing the String}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.4}{Go-to-Goal and PID}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.5}{Collision avoidance}{chapter.1}% 8
+\BOOKMARK [1][-]{section.1.6}{Scaling up}{chapter.1}% 9

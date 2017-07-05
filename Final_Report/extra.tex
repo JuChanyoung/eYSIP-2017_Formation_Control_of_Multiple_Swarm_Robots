@@ -1,0 +1,65 @@
+\section{Python and OpenCV setup}
+	
+	\section{Aruco Detection}
+			Download and install the ArUco library from this git-hub repository \href{https://github.com/skvark/opencv-python}{OpenCV-contrib}\\
+			Reference websites\\
+			\href{http://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html}{OpenCV}\\
+			\href{http://www.philipzucker.com/aruco-in-opencv/}{reference website}\\
+			
+			Refer the example codes for the usage of the ArUco library
+		\subsection{Example Codes}
+			\subsection{generate.py}
+				Run the generate.py script to generate and save an aruco marker of a desired id and size.\\
+			\subsection{aruco1.py}
+				\begin{lstlisting}[language=Python, caption = Recognising the ArUco markers]
+				
+					# Capture frame-by-frame
+					ret, frame = cap.read()
+				
+					#Convert frame to grayscale
+					gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+					
+					#5x5 aruco marker and upto 250 ids
+					aruco_dict = aruco.Dictionary_get(aruco.DICT_5X5_250)
+					parameters = aruco.DetectorParameters_create()
+				
+					# lists of ids and the corners beloning to each id
+					corners, ids, _ = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
+				\end{lstlisting}
+				
+				This script will detect the corners of a marker present in the frame.
+				
+				\pagebreak
+				\begin{lstlisting}[language=Python, caption = Pose and Oriention Calculation]
+					x_center = (corners[0][0][0][0] + corners[0][0][1][0] + corners[0][0][2][0] + corners[0][0][3][0])/4
+					y_center = (corners[0][0][0][1] + corners[0][0][1][1] + corners[0][0][2][1] + corners[0][0][3][1])/4
+					
+					x1 = corners[0][0][0][0]
+					x2 = corners[0][0][1][0]
+					y1 = corners[0][0][0][1]
+					y2 = corners[0][0][1][1]
+					
+					x2 = x2-x1
+					y2 = -(y2-y1)
+					
+					angle = math.degrees(math.atan2(y2,x2)) #Result ranges from -180 to 180
+					
+					print angle, (x_center,y_center)		
+				\end{lstlisting}
+				
+				The center of the marker is found out by simply averaging the x and the y coordinates of all the corners of an ArUco marker.\\
+				The orientation of an ArUco marker is obtained by taking the relative position between two adjacent corners and taking tan inverse of the ratio of the x and y ordinates.
+				
+			\subsection{help.py}
+				Run the help script in the example code folder for the list of all the functions available in the ArUco libray.\\
+					
+	\section{XBee Configuration}
+		\subsection{API mode}
+			\subsubsection{Coordinator}
+			\subsubsection{End device}
+		\subsection{AT mode}
+			\subsubsection{Coordinator}
+			\subsubsection{End device}
+	\section{XBee Interfacing  with python}
+			\subsection{Pyserial libraries}
+			\subsection{XBee libraries}

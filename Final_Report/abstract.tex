@@ -1,0 +1,7 @@
+\documentclass[main.tex]{subfiles}
+ 
+\begin{document}
+\section{Abstract}
+Implement formation control over a group of Spark V robots. We are using an overhead camera setup for localization of robots. Robot's position and orientation will be given by aruco markers.\\
+The project is inspired by swarm behavior in bees and ants. This methodology is a hybrid between true swarm behavior and a complete master-slave methodology for controlling the bots. Localization of robots is achieved by an overhead camera and markers placed on the robot. The Master (Laptop) detects the markers and hence obtains the position and orientation of each robot. Any point in the arena can be chosen as a goal point for the robot, the master sends the robot's location in real time and the goal co-ordinate to the robot and the robot moves accordingly to the goal point avoiding other robots present in the way. Similarly multiple points are chosen and multiple robots are directed to desired goal points resulting in a desired formation.\\
+\end{document}

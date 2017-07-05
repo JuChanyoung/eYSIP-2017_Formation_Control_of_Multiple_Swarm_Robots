@@ -1,0 +1,50 @@
+\documentclass[main.tex]{subfiles}
+ 
+\begin{document}
+	\section{Hardware parts}
+	\begin{enumerate}
+		\item Spark V - NEX Robotics
+		\item Xbee S2C Zigbee Module
+		\item Camera - Intex 306IT 
+		\item Laptop
+	\end{enumerate}
+	
+	\subsection*{Spark V}
+	\begin{flushleft}
+		Spark V Robot \href{http://www.nex-robotics.com/products/spark-v-robot/spark-v.html}{\ExternalLink} is a low cost robot designed for robotics hobbyists and enthusiasts. It is jointly designed by NEX Robotics with Department of Computer Science and Engineering, IIT Bombay.
+		
+		Microcontroller: Atmel ATMega16A
+		
+		Refer the hardware \href{./datasheet/Spark V manuals/SPARK V ATMEGA16 Hardware Manual 2010-11-06.pdf}{\ExternalLink} and software\href{./datasheet/Spark V manuals/SPARK V ATMEGA16 Hardware Manual 2010-11-06.pdf}{\ExternalLink} manuals for more details.
+	\end{flushleft}
+	
+	\section{Software}
+	\subsection{IDEs used}
+	\begin{enumerate}
+		\item Atmel Studio V7 \href{http://www.atmel.com/microsite/atmel-studio/}{\ExternalLink}
+		\item Pycharm 2016.2.3 \href{https://www.jetbrains.com/pycharm/download/#section=windows}{\ExternalLink}  
+		\item Python IDLE v2.7.12
+	\end{enumerate}			
+	
+	\subsection{Libraries used for Python v2.7.12}
+	\begin{enumerate}
+		\item OpenCV Version-3.2.7 \\
+		Library used for image processing in python.
+		\item OpenCV-contrib \href{https://github.com/skvark/opencv-python}{\ExternalLink}\\
+		Wrapper package for OpenCV python bindings. This is used for aruco marker detection.
+		\item Pyserial
+		\item Numpy (1.12.1)
+		\item XBee library
+		\item Math library
+	\end{enumerate}
+	
+	\subsection{Other Software}
+	\begin{enumerate}
+		\item PIP\\
+		PIP is a package management system used to install and manage software packages written in Python.
+		PIP is already installed if using Python 2.7.9 or Python 3.4 binaries downloaded from python.org, but you'll need to upgrade pip.
+		\href{https://pip.pypa.io/en/stable/installing/}{\ExternalLink}
+		\item XCTU\href{https://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu}{\ExternalLink}\\
+		Software used to configure Xbee modules
+	\end{enumerate}	
+\end{document}	
