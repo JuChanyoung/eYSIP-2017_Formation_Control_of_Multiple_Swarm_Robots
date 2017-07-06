@@ -17,6 +17,7 @@ Get the python script on the git-hub repository \href{https://github.com/eYSIP-2
 
 \includegraphics[scale=.8]{images/flowchart.png}
 
+\pagebreak
 \section{Video Capture}
 To capture image using usb camera python uses a object created by the function cv2.VideoCapture('camera number'),
 read() method of the cv2.VideoCapture(`camera number') is used to read single frame .
@@ -33,11 +34,13 @@ while(True):
        		 break	
 '''cap is a object of cv2.VideoCapture'''
 \end{lstlisting}
-\pagebreak
+
 \section{Arena Black Box Extraction}
 The main arena area is enclosed by a black boundary which can be extracted using the contour function.This function detects the shape with same color or intensity.
 
-\noindent \includegraphics[scale=.8]{images/arena.jpg}
+\begin{center}
+	\includegraphics[scale=.6]{images/arena.jpg}
+\end{center} 
 
 \textbf{Steps:}
 \begin{enumerate}
@@ -48,7 +51,6 @@ The main arena area is enclosed by a black boundary which can be extracted using
 \item Perspective Transform
 \end{enumerate}
 
-\pagebreak
 \begin{lstlisting}[language=Python, caption = Black Box area crop and perspective trasform]
 img_gray=cv2.cvtColor(img_rgb,cv2.COLOR_BGR2GRAY)
 ret,thresh = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
@@ -177,17 +179,16 @@ an=np.where(np.logical_and(anglemat[i][j]<90 , anglemat[i][j]>-90))
 if (len(an[0])!=0)  and i!=j and len(item[0])!=0  : 
 	obstacleavoid=True
 \end{lstlisting}
-\pagebreak	
+
 \section{Goal Point allocation}
 We use three ways to mark goal points on the canvas or image.
 The three list goal, path, points are used to keep track of the points.
 
-Goal-It contains the actual goal point for the robots.
-
-Path-It contains the possible goal points for all robots.
-
-Points-It contains raw points from the shape drawn on canvas.
-
+\begin{itemize}
+	\item Goal-It contains the actual goal point for the robots.
+	\item Path-It contains the possible goal points for all robots.
+	\item Points-It contains raw points from the shape drawn on canvas.
+\end{itemize}
 The process of Goal allocation starts from points array if there exist one, then preferred points are transferred to the path array from where each robot chose its closes goal point and the chosen point is transferred to the goal array and becomes the true goal point for the particular robot.
 
 \begin{enumerate}
@@ -203,6 +204,7 @@ To select points on image we use an opencv function
 
 cv2.setMouseCallback(`Window', function to call)
 This function sets the handler for mouse activity calls the `function to call' when ever mouse is in the specified window.
+\pagebreak
 \begin{lstlisting}[language=Python, caption = Mouse activity call back function]
 def draw_shape(event,x,y,flags,param):
     if event ==cv2.EVENT_RBUTTONDOWN:
@@ -216,7 +218,6 @@ def draw_shape(event,x,y,flags,param):
         
 \end{lstlisting}
 
-
 \item single stroke shape:
 \\
 \includegraphics[scale=1]{images/shapedraw.png}
@@ -228,14 +229,12 @@ def chunkIt(seq, num):
   avg = len(seq) / float(num)
   out = []
   last = 0.0
-
   while last < len(seq):
     out.append(seq[int(last):int(last + avg)])
     last += avg
   return out
 
 Averaging points in each list created by chunkIt function.
-
 for i in range(len(chunk)):
 	sumx=0
     sumy=0
@@ -253,7 +252,6 @@ The final step is to move the points in path list to goal list. This is done by 
 
 \begin{lstlisting}[language=Python, caption = Goal allocation]
 initailly the Goal list is filled with (0,0)  
- 
  for botid in robot:
         distance_list=[[]]
         for count,j in enumerate(path):            
@@ -265,15 +263,14 @@ initailly the Goal list is filled with (0,0)
             goal[botid]=path[goal_index]
             path.remove(goal[botid])
 \end{lstlisting}
-
-
 \end{enumerate} 
 
-\pagebreak	
 \section{Robot Movement}
 To make the robot move for every frame a XBee packet is sent to bot containing its current robot id, location , orientation, its destination, angle of goal point , flag, rotation angle.
 Flag and rotation are 0 in case of no obstacle avoidance mode and 1(left) or 2(right) in obstacle avoidance mode.
 Similarly rotation angle is 0 for no obstacle avoidance mode and some integer for obstacle avoidance mode.
+
+\pagebreak
 \begin{lstlisting}[language=Python, caption = Robot Movement]
 angle_dummy=angle_calculate(goal point,robot location)
 '''here angle dummy is the angle of line between goal point robot location , w.r.t horizontal axis'''
@@ -287,7 +284,7 @@ angle_dummy=angle_calculate(goal point,robot location)
                '/'+str(angle_dummy+360+
                '/'+'0'+'0'+'/#>')
 \end{lstlisting}
-\pagebreak
+
 \section{Xbee Communication}
 To enable serial communication we use a serial library of python.
 It opens the COM port on which the XBee is connected and sets the baudrate for sending data.

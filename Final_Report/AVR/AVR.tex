@@ -102,7 +102,6 @@ Get the Spark V code on the git-hub repository \href{https://github.com/eYSIP-20
 			else
 			break;
 		}
-
 			x_current = atoi(parts[1]);
 			y_current = atoi(parts[2]);
 			theta_current = abs(atoi(parts[3])-360+180-360); //(0)-(360)
@@ -114,8 +113,7 @@ Get the Spark V code on the git-hub repository \href{https://github.com/eYSIP-20
 	}
 	\end{lstlisting}
 	
-	\pagebreak
-	The string is received in the form
+	\noindent The string is received in the form
 	\begin{verbatim}
 	<#id/x_current/y_current/theta_current/x_required/y_required/theta_required/
 	trigger/trigger_angle#>
@@ -173,6 +171,16 @@ Get the Spark V code on the git-hub repository \href{https://github.com/eYSIP-20
 		The velocity and the kp values are reduced as the robot nears its goal point to avoid overshoot and to avoid oscillations.\\
 		Obstacle avoidance behavior is also turned off (by setting destination=1) as the robot nears its goal point so that it does not miss its goal point if another robot is near the goal point.
 		
+		\begin{verbatim}
+		v_left=((2*V+w*L)/(2*R));
+		v_right=((2*V-w*L)/(2*R));
+		\end{verbatim}
+		
+		These equations convert the unicycle model to the differential drive model.\\
+		The unicycle model gives the state of the robot in terms of its liner velocity 'V' (cm/sec) and its angular velocity 'w'.\\
+		The differential drive model gives the state of the robot in terms of the angular velocity (RPM) of each wheels.\\
+		While this equations are unnecessary in this case they could be made applicable if we had precise control over the angular velocity of the wheels(RPM).\\
+		
 		\pagebreak
 		We use a modified function for velocity along with the Go-to-Goal controller. Negative velocity will make the wheel rotate in the opposite direction. Giving a value greater then 255 will have no effect and it will be capped to 255.
 		
@@ -205,17 +213,6 @@ Get the Spark V code on the git-hub repository \href{https://github.com/eYSIP-20
 			OCR1BL = right_motor;     // duty cycle 'ON' period of PWM out for Right motor
 		}
 		\end{lstlisting}
-		
-		\pagebreak
-		\begin{verbatim}
-			v_left=((2*V+w*L)/(2*R));
-			v_right=((2*V-w*L)/(2*R));
-		\end{verbatim}
-		
-		These equations convert the unicycle model to the differential drive model.\\
-		The unicycle model gives the state of the robot in terms of its liner velocity 'V' (cm/sec) and its angular velocity 'w'.\\
-		The differential drive model gives the state of the robot in terms of the angular velocity (RPM) of each wheels.\\
-		While this equations are unnecessary in this case they could be made applicable if we had precise control over the angular velocity of the wheels(RPM).\\
 		
 	\pagebreak
 	\section{Collision avoidance}

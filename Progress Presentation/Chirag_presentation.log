@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.21)  6 JUN 2017 10:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.21)  6 JUL 2017 12:21
 entering extended mode
 **./Chirag_presentation.tex
 (Chirag_presentation.tex
@@ -907,68 +907,48 @@ Package pdftex.def Info: images/aruco.jpg used on input line 104.
 <images/ddrive.jpg, id=194, 645.26785pt x 193.58035pt>
 File: images/ddrive.jpg Graphic file (type jpg)
  <use images/ddrive.jpg>
-Package pdftex.def Info: images/ddrive.jpg used on input line 117.
+Package pdftex.def Info: images/ddrive.jpg used on input line 116.
 (pdftex.def)             Requested size: 258.10257pt x 77.43076pt.
-
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.117 \end{frame}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-<images/xbee.jpg, id=195, 459.7175pt x 459.7175pt>
-File: images/xbee.jpg Graphic file (type jpg)
- <use images/xbee.jpg>
-Package pdftex.def Info: images/xbee.jpg used on input line 117.
-(pdftex.def)             Requested size: 55.16371pt x 55.16371pt.
-
-<images/star.png, id=196, 554.82281pt x 418.56375pt>
-File: images/star.png Graphic file (type png)
- <use images/star.png>
-Package pdftex.def Info: images/star.png used on input line 117.
-(pdftex.def)             Requested size: 66.57585pt x 50.22548pt.
 
 [5
 
- <./images/ddrive.jpg> <./images/xbee.jpg> <./images/star.png>]
-<images/flow.png, id=230, 514.92375pt x 179.92218pt>
+ <./images/ddrive.jpg>] <images/star.png, id=229, 554.82281pt x 418.56375pt>
+File: images/star.png Graphic file (type png)
+
+<use images/star.png>
+Package pdftex.def Info: images/star.png used on input line 122.
+(pdftex.def)             Requested size: 194.19089pt x 146.4995pt.
+ [6
+
+ <./images/star.png>]
+<images/flow.png, id=262, 514.92375pt x 179.92218pt>
 File: images/flow.png Graphic file (type png)
  <use images/flow.png>
-Package pdftex.def Info: images/flow.png used on input line 127.
+Package pdftex.def Info: images/flow.png used on input line 132.
 (pdftex.def)             Requested size: 205.96585pt x 71.96759pt.
 
-<images/snip0.png, id=232, 386.94562pt x 271.76532pt>
+<images/snip0.png, id=264, 386.94562pt x 271.76532pt>
 File: images/snip0.png Graphic file (type png)
  <use images/snip0.png>
-Package pdftex.def Info: images/snip0.png used on input line 127.
-(pdftex.def)             Requested size: 135.43298pt x 95.11928pt.
+Package pdftex.def Info: images/snip0.png used on input line 132.
+(pdftex.def)             Requested size: 116.08458pt x 81.53021pt.
 
-<images/snip1.png, id=233, 388.45125pt x 274.02374pt>
+<images/snip1.png, id=265, 388.45125pt x 274.02374pt>
 File: images/snip1.png Graphic file (type png)
  <use images/snip1.png>
-Package pdftex.def Info: images/snip1.png used on input line 127.
-(pdftex.def)             Requested size: 135.95996pt x 95.90974pt.
+Package pdftex.def Info: images/snip1.png used on input line 132.
+(pdftex.def)             Requested size: 116.53627pt x 82.20775pt.
 
-Overfull \vbox (9.93323pt too high) detected at line 127
- []
+[7
 
-[6
+ <./images/flow.png> <./images/snip0.png> <./images/snip1.png>] [8
 
- <./images/flow.png> <./images/snip0.png> <./images/snip1.png>] [7
-
-] [8
+] [9
 
 ]
-[9
+[10
 
-] [10
+] [11
 
 ]
 \tf@nav=\write6
@@ -987,11 +967,11 @@ Package movie15 Warning: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 (movie15)                @@ superseded by `media9'.           @@
 (movie15)                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
 (Chirag_presentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 170.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 170.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
 Package rerunfilecheck Info: File `Chirag_presentation.out' has not changed.
 (rerunfilecheck)             Checksum: FA0C4353FCC964A4AA1C38505EABEF53;350.
 
@@ -1001,10 +981,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 17595 strings out of 493333
- 334730 string characters out of 3139191
+ 17593 strings out of 493333
+ 334661 string characters out of 3139191
  447698 words of memory out of 3000000
- 20681 multiletter control sequences out of 15000+200000
+ 20678 multiletter control sequences out of 15000+200000
  12018 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,55p,805b,589s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1014,9 +994,9 @@ les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><E:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><E:/Program Files/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmssbx10.pfb><E:/Program Files/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/symbols/msam10.pfb>
-Output written on Chirag_presentation.pdf (10 pages, 1241961 bytes).
+Output written on Chirag_presentation.pdf (11 pages, 1220562 bytes).
 PDF statistics:
- 426 PDF objects out of 1000 (max. 8388607)
- 28 named destinations out of 1000 (max. 500000)
- 134 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 458 PDF objects out of 1000 (max. 8388607)
+ 30 named destinations out of 1000 (max. 500000)
+ 129 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -6,7 +6,14 @@
 \usepackage{hyperref}
 \usepackage{hyperref} %packagr for hyperlinks
 \usepackage{fancyhdr} %use of package fancy header
+
 \usepackage{titlesec} %use of package for section title formatting
+
+\titleformat{\chapter}[display]   
+{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}   
+\titlespacing*{\chapter}{0pt}{-150pt}{40pt}
+
+
 \usepackage[most]{tcolorbox} %use of package tcolorbox for colorful textbox
 \usepackage{marginnote} %use of package marginnote for notes in margin
 %use of packgage watermark for pages
@@ -155,19 +162,31 @@
 	\subfile{AVR/AVR}
 	\subfile{Python/Python}
 	
-	\chapter[Project Tag]{Use and Demo}
+	\chapter[Instructions for user]{Instructions for user}
+	\begin{enumerate}
+		\item Upload the AVR code to all the Spark V. The code does not need to be modified for each robot.
+		\item Print 0 through 7 aruco marker using the script "generate.py" in the test code folder. Use the dictionary \verb|5x5_250|. Keep in mind that not all encodings of aruco markers are the same, check your source for obtaining aruco markers. Place them on the robot in the same orientation they are generated.
+		\item Configure 8 XBees as end devices in API mode with their "my id" ranging from 20-27 and insert them in the bots with aruco markers 0-7 respectively.
+		\item Configure one XBee as coordinator in API mode with its ``my id" as 11 and use it with the master(laptop).
+		\item Open the python script main.py on idle/PyCharm. You will need to change the COM port for the XBee in ``serial.Serial()" and the camera number in ``VideoCapture()" in the main file.
+		\item Run the python script ``main.py".
+		\item \verb|!| will open the interface for drawing shapes. Draw shapes in a single stroke. \# will then get the goal points from the shape and start the robots.
+		\item A E e N T R Y are the letters which are predefined. The robots will form these shapes on pressing these keys.
+		\item \verb|/| will stop the bots. If desired you can now manually give 8 goal points for ids 0-7 by clicking on the desired area on the window.
+	\end{enumerate}
 	
-	\section{Challanges}
+	\chapter[Conclusion]{Conclusion}			
+	\section{Bug report}
+	With the current python script, occasionally the error "index list out of range" occurs during runtime.\\
+	Positions of the goal points sometimes are very close together. Averaging of points in the list may not be appropriate for some shapes.\\
+	Shapes need to be drawn in a single stroke.\\
+	
+	\section{Challenges}
 	\begin{itemize}
 		\item When using the on board IR sensors, they would detect any obstacle successfully, but they would also be triggered by the IR from the other robots in the arena even from a considerable (3-4 feet). It was concluded that the only way to use the onboard sensors was to make hardware changes like adding a transistor for switching the sensors.
 		\item If the XBees were kept in AT mode so that the data of every robot is received by each robot, the robot was not able to handle a large amount of data (of more then 3-4 robots). The robot would go into some undefined behavior and had to be reset. This was suspected to be because having a long interrupt function for communication on the robot and the buffer becoming full with a large amount of data.\\
 		This was an issue for having collision avoidance on the robot. This might be solved by having better communication algorithms (like circular buffers) on the robot.
 	\end{itemize}
-		
-	\section{Bug report}
-	With the current python script, occasionally the error "index list out of range" occurs during runtime.\\
-	Positions of the goal points sometimes are very close together. Averaging of points in the list may not be appropriate for some shapes.\\
-	Shapes need to be drawn in a single stroke.\\
 	
 	\section{Future Work}
 	This is potentially a very powerful swarm robotics system as we can obtain the state of each robot with respect to a global co-ordinate system.\\
@@ -190,7 +209,7 @@
 		\href{http://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html}{\ExternalLink}
 		
 		\bibitem{Control of Mobile Robots}
-		Courcera-Control of Mobile Robots
+		Coursera-Control of Mobile Robots
 		\href{https://www.coursera.org/learn/mobile-robot}{\ExternalLink}
 		
 		\bibitem{}

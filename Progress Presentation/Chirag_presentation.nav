@@ -19,28 +19,30 @@
 \headcommand {\beamer@framepages {5}{5}}
 \headcommand {\slideentry {3}{0}{3}{6/6}{}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\sectionentry {4}{Next Tasks}{7}{Next Tasks}{0}}
-\headcommand {\beamer@sectionpages {4}{6}}
-\headcommand {\beamer@subsectionpages {4}{6}}
-\headcommand {\slideentry {4}{0}{1}{7/7}{}{0}}
+\headcommand {\slideentry {3}{0}{4}{7/7}{}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\sectionentry {5}{Challenges Faced}{8}{Challenges Faced}{0}}
-\headcommand {\beamer@sectionpages {7}{7}}
-\headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\slideentry {5}{0}{1}{8/8}{}{0}}
+\headcommand {\sectionentry {4}{Next Tasks}{8}{Next Tasks}{0}}
+\headcommand {\beamer@sectionpages {4}{7}}
+\headcommand {\beamer@subsectionpages {4}{7}}
+\headcommand {\slideentry {4}{0}{1}{8/8}{}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\sectionentry {6}{Future Plans}{9}{Future Plans}{0}}
+\headcommand {\sectionentry {5}{Challenges Faced}{9}{Challenges Faced}{0}}
 \headcommand {\beamer@sectionpages {8}{8}}
 \headcommand {\beamer@subsectionpages {8}{8}}
-\headcommand {\slideentry {6}{0}{1}{9/9}{}{0}}
+\headcommand {\slideentry {5}{0}{1}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\sectionentry {7}{Thank You}{10}{Thank You}{0}}
+\headcommand {\sectionentry {6}{Future Plans}{10}{Future Plans}{0}}
 \headcommand {\beamer@sectionpages {9}{9}}
 \headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\slideentry {7}{0}{1}{10/10}{}{0}}
+\headcommand {\slideentry {6}{0}{1}{10/10}{}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@partpages {1}{10}}
-\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\sectionentry {7}{Thank You}{11}{Thank You}{0}}
 \headcommand {\beamer@sectionpages {10}{10}}
-\headcommand {\beamer@documentpages {10}}
-\headcommand {\def \inserttotalframenumber {10}}
+\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\slideentry {7}{0}{1}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\beamer@partpages {1}{11}}
+\headcommand {\beamer@subsectionpages {11}{11}}
+\headcommand {\beamer@sectionpages {11}{11}}
+\headcommand {\beamer@documentpages {11}}
+\headcommand {\def \inserttotalframenumber {11}}

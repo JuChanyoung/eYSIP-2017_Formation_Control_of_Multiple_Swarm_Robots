@@ -95,7 +95,7 @@
 	\begin{itemize}	
 	\item Cropping and transforming the arena area inside the black border
 	%\includegraphics[scale =.2]{2.jpg}
-		\item The position and orientation (x, y,$\Phi$) of multiple robots can be found using aruco markers placed on the robot\\
+		\item The position and orientation (x, y,$\Phi$) of Multiple robots can be found using aruco markers placed on the robot\\
 		\includegraphics[scale =.1]{images/aruco.jpg}
 		
 		
@@ -104,25 +104,30 @@
 \end{frame}	
 
 \begin{frame}{Task Accomplished}
-\begin{itemize}
+	\begin{itemize}
 
 		\item Selected suitable equations for the differential drive robot\\
 		\includegraphics[scale =.4]{images/ddrive.jpg}
-		\item (x, y, $\theta$) of each robot is transmitted via XBee to the robot. The desired location (xg,yg,$\phi$) is also transmitted. The XBees are configured in a star configuration \\
-		\\ \begin{center}
-			\includegraphics[scale =.12]{images/xbee.jpg}
-			\includegraphics[scale =.12]{images/star.png}
-			\end{center}
-\end{itemize}
+		\item (x, y, $\theta$) of each robot is transmitted via XBee to the robot. The desired location (xg,yg,$\phi$) is also transmitted. The XBees are configured in a star configuration
+		\item Suitable Equation for the differential drive robot. \\
+		%\includegraphics[scale =.40]{images/ddrive.jpg}
+		\item (x, y, $\theta$) of each robot is transmitted via XBee to the robot. The desired location (xg,yg,$\phi$) is also transmitted. The XBees are configured in a star configuration. 
+	\end{itemize}		
 \end{frame}
 
 \begin{frame}{Task Accomplished}
+		   \begin{center}
+			\includegraphics[scale =.35]{images/star.png}
+			\end{center}
+\end{frame}
 
-\begin{center}
-	\includegraphics[scale =.4]{images/flow.png}
-\end{center}
-\begin{itemize}
-		\item The robot can turn and move towards the required location using a P controller for differential drive\\	\includegraphics[scale =.35]{images/snip0.png}\includegraphics[scale =.35]{images/snip1.png}\\
+\begin{frame}{Task Accomplished}
+	\begin{center}
+		\includegraphics[scale =.4]{images/flow.png}
+	\end{center}
+	
+	\begin{itemize}
+		\item The robot can turn and move towards the required location using a P controller for differential drive\\	\includegraphics[scale =.3]{images/snip0.png}\includegraphics[scale =.3]{images/snip1.png}\\
 	\end{itemize}
 \end{frame}
 
@@ -145,7 +150,7 @@
 \begin{frame}{Challenges Faced}
 	\begin{itemize}
 %		\item Aruco detection on Open cv.
-		\item Communication between computer(Master) and robot(Slave) to transmit the robots initial state and desired state (x, y, $\Phi$)(Serial Communication Protocol)
+		\item Communication between computer(Master) and robot(Slave) to transmit the robots initial state and desired state\\ (x, y, $\Phi$)(Serial Communication Protocol)
 		\item Developing an effective differential drive robot  model for the Spark V
 		\item Conversion from unicycle model to differential drive model
 		\item Implementing  Go-to-goal controller using P controller algorithm on the Spark V
